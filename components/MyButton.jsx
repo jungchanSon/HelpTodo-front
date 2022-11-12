@@ -6,9 +6,11 @@ import Link from "next/link";
 
 export default function Navbar(props={data}) {
   return (
-      <Button >
-        {props.data}
-      </Button >
+      <div>
+        <Button>
+          {props.data}
+        </Button>
+      </div>
   )
 }
 const Button = styled.div`

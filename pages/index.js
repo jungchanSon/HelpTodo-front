@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 export default function Home() {
   return (
-    <div >
+    <div>
       main page <br/>
       사용방법!
 
