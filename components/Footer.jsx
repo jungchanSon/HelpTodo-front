@@ -1,7 +1,24 @@
+import styled from "styled-components";
+
 export default function Footer() {
   return (
       <div >
-        footer
+
+        <Container>
+          <p>이름: 손정찬</p>
+          <p>이메일: rnrmfjc@gmail.com</p>
+        </Container>
+
       </div>
   )
 }
+
+const Container = styled.div`
+  
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  
+  height: 5vh;
+  border: 3px solid black;
+`
