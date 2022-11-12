@@ -8,7 +8,10 @@ export default function Navbar() {
   return (
       <div >
         <Nav>
-          <Image src={logo} />
+          <Link href="/" >
+            <Image src={logo} />
+          </Link>
+
 
           <LinkLayout >
             <Link href="/" >
