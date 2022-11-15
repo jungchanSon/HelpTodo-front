@@ -1,3 +1,4 @@
+import React from 'react';
 import '../styles/globals.css'
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -7,7 +8,7 @@ import defaultTheme from "../styles/Themes/theme";
 function MyApp({ Component, pageProps }) {
   return (
       <ThemeProvider theme={defaultTheme}>
-        <Header></Header>
+        <Header />
         <Component {...pageProps} />
         <Footer></Footer>
       </ThemeProvider>

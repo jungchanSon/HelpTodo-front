@@ -1,15 +1,12 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import React from 'react';
 import styled from "styled-components";
 
-export default function Home() {
+export default function index() {
   return (
     <div>
       main page <br/>
       사용방법!
-
-      <H1>팀장</H1>
+      <H1 className={"text-3xl font-bold underline"}>팀장</H1>
           <H2>1. 팀 생성해주세요.</H2>
           <H2>2. 팀원에게 팀 코드를 보내주세요.</H2>
       <hr/>

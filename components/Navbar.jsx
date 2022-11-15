@@ -1,39 +1,39 @@
+import React from 'react';
 import styled from "styled-components";
 
 import Image from "next/image";
 import logo from "/public/logo.jpg"
 import Link from "next/link";
-import MyButton from "/components/MyButton"
 export default function Navbar() {
   return (
-      <div >
+      <div>
         <Nav>
-          <Link href="/" >
-            <Image src={logo} />
+          <Link href="/">
+            <Image src={logo}/>
           </Link>
 
-
-          <LinkLayout >
-            <Link href="/" >
-              <A>홈</A >
+          <LinkLayout>
+            <Link href="/">
+              <A>홈</A>
             </Link>
-            <Link href="/teamlist" >
-              <A>내 팀 목록</A >
+            <Link href="/teamlist">
+              <A>내 팀 목록</A>
             </Link>
-            <Link href="/mytodo" >
-              <A>내 할일 목록</A >
+            <Link href="/mytodo">
+              <A>내 할일 목록</A>
             </Link>
           </LinkLayout>
         </Nav>
-      </div >
-  )
+      </div>
+  );
 }
 
-const A = styled.a`
+const A = styled.div`
   border: 3px solid blue;
   font-size: 30px;
   margin: 0 1vw;
 `
+
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;

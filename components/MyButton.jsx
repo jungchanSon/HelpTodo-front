@@ -1,8 +1,6 @@
+import React from 'react';
 import styled from "styled-components";
 
-import Image from "next/image";
-import logo from "/public/logo.jpg"
-import Link from "next/link";
 
 export default function Navbar(props={data}) {
   return (
