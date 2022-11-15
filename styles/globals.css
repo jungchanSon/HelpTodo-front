@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+
+  width: 40vw;
+  background: floralwhite;
+  border: 2px black solid;
+  border-radius: 30px;
+  padding: 3vw;
+  margin: 10vh;
+
+  margin: 4vh auto;
+
+}
 html,
 body {
   padding: 0;

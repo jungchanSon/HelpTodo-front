@@ -12,17 +12,27 @@ export default function Navbar() {
             <Image src={logo}/>
           </Link>
 
-          <LinkLayout>
-            <Link href="/">
-              <A>홈</A>
-            </Link>
-            <Link href="/teamlist">
-              <A>내 팀 목록</A>
-            </Link>
-            <Link href="/mytodo">
-              <A>내 할일 목록</A>
-            </Link>
-          </LinkLayout>
+          <RightLayout>
+            <LoginLayout>
+              <Link href={"/login"} className={"px-4 hover:bg-gray-100 text-lg font-bold" }>
+                로그인
+              </Link>
+              <Link href={"/signup"} className={"px-4 hover:bg-gray-100 text-lg font-bold"}>
+                회원가입
+              </Link>
+            </LoginLayout>
+            <LinkLayout>
+              <Link href="/">
+                <A className={"border border-indigo-600"}>홈</A>
+              </Link>
+              <Link href="/inputTeamCode">
+                <A>내 팀 목록</A>
+              </Link>
+              <Link href="/mytodo">
+                <A>내 할일 목록</A>
+              </Link>
+            </LinkLayout>
+          </RightLayout>
         </Nav>
       </div>
   );
@@ -45,4 +55,13 @@ const Nav = styled.nav`
 const LinkLayout = styled.div`
   display: flex;
   align-items: center;
+`
+const RightLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+`
+
+const LoginLayout = styled.div`
 `
