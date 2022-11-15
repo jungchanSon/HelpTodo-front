@@ -1,14 +1,13 @@
+import React from 'react';
 import styled from "styled-components";
 
 export default function Footer() {
   return (
-      <div >
-
+      <div>
         <Container>
           <p>이름: 손정찬</p>
           <p>이메일: rnrmfjc@gmail.com</p>
         </Container>
-
       </div>
   )
 }
