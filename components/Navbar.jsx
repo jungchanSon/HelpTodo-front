@@ -9,7 +9,7 @@ export default function Navbar() {
       <div>
         <Nav>
           <Link href="/">
-            <Image src={logo}/>
+            <Image src={logo} alt={"로고"}/>
           </Link>
 
           <RightLayout>
