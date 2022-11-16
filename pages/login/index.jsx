@@ -9,7 +9,7 @@ const loginPage= () => {
           <InputPw type="password" placeholder={"PASSWORD"} className={"p-3 hover:border-4 hover:bg-gray-100 m-2" }></InputPw>
 
           <SubmitLogin type="submit"  className={"p-3 m-2"} value={"로그인"}></SubmitLogin>
-          <Link href={"/"} className={"text-center m-2"}>
+          <Link href={"/signup"} className={"text-center m-2"}>
             <Psignup className={"text-center p-3 bg-rose-100"}>회원가입</Psignup>
           </Link>
         </FormLogin>
