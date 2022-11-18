@@ -2,10 +2,14 @@
 import styled from "styled-components";
 import Link from "next/link";
 import {useState} from "react";
+import axios from "axios";
+import userStore from "/store/user"
 
 const loginPage= () => {
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
+
+  const {userName, setUserName} = userStore()
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -18,6 +22,15 @@ const loginPage= () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    const loginData = {
+      id: id,
+      pw: pw
+    }
+
+    axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/login", null, {params: loginData} ).then((res)=>{
+      setUserName(res.data)
+    })
   }
   return(
       <Div>

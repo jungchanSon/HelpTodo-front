@@ -17,21 +17,21 @@ const signupPage = () => {
 
     if( name && id && pw && pw2){ //모두 입력한 상태
       if(pw == pw2){
-        const loginData = {
+        const signupData = {
           name: name,
           id: id,
           pw: pw
         }
 
-        axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/signup", null, {params: loginData} ).then((res)=>{
+        axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/signup", null, {params: signupData} ).then((res)=>{
           console.log(res)
           console.log(res.data)
         })
-      } else{
-
+      } else{ // pw != pw2
+        alert("패스워드 확인이 틀렸습니다.")
       }
     }else{  //빈 칸 있음.
-      console.log("not")
+      alert("모두 입력해주세요")
     }
 
 
