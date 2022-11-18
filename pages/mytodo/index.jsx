@@ -4,7 +4,9 @@ import styled from "styled-components";
 export default function Home() {
   return (
       <div>
-        main page <br/>
+
+
+            main page <br/>
         사용방법!
 
         <H1>팀장</H1>
