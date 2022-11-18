@@ -4,19 +4,12 @@ import styled from "styled-components";
 export default function Home() {
   return (
       <div>
-            <TeamlistContainer>
-                  <InputTeamCode>
-                        팀 초대 코드 입력
-                    <FormCode>
-                      <InputCode type="text"/>
+        <TeamlistContainer>
 
-                      <SubmitCode type="submit"/>
-                    </FormCode>
-                  </InputTeamCode>
-                  <TeamList className={""} >
-                        내 팀 목록
-                  </TeamList>
-            </TeamlistContainer>
+            <TeamList className={""} >
+                  내 팀 목록
+            </TeamList>
+        </TeamlistContainer>
       </div>
   )
 }
@@ -27,7 +20,11 @@ const TeamlistContainer = styled.div`
       align-items: center;
 `
 
-
+const CreateTeamCode = styled.div`
+      border: 1px solid black;
+      margin: 5vh;
+      padding: 4vh;
+`
 const InputTeamCode = styled.div`
       border: 1px solid black;
       margin: 5vh;

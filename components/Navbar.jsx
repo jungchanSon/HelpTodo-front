@@ -25,11 +25,11 @@ export default function Navbar() {
               <Link href="/">
                 <A className={"border border-indigo-600"}>홈</A>
               </Link>
-              <Link href="/inputTeamCode">
+              <Link href="/teamlist">
                 <A>내 팀 목록</A>
               </Link>
-              <Link href="/mytodo">
-                <A>내 할일 목록</A>
+              <Link href="/teamcode">
+                <A>팀 생성 & 가입</A>
               </Link>
             </LinkLayout>
           </RightLayout>
