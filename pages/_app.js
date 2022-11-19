@@ -4,14 +4,20 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import {ThemeProvider} from "styled-components";
 import defaultTheme from "../styles/Themes/theme";
+import { SessionProvider } from "next-auth/react"
 
-function MyApp({ Component, pageProps }) {
+function MyApp({
+  Component,
+  pageProps:{session, ...pageProps},
+}) {
   return (
-      <ThemeProvider theme={defaultTheme}>
-        <Header />
-        <Component {...pageProps} />
-        <Footer></Footer>
-      </ThemeProvider>
+      <SessionProvider session={session}>
+        <ThemeProvider theme={defaultTheme}>
+          <Header />
+          <Component {...pageProps} />
+          <Footer></Footer>
+        </ThemeProvider>
+      </SessionProvider>
   )
 }
 

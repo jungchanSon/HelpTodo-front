@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import styled from "styled-components";
 import Link from "next/link";
-import {useState} from "react";
-import axios from "axios";
+import {useEffect, useState} from "react";
 import userStore from "/store/user"
+import { useSession, signIn, signOut } from "next-auth/react"
+import {redirect} from "next/navigation";
+import Router from "next/router";
 
 const loginPage= () => {
+  const {data: session} = useSession();
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
 
@@ -20,18 +23,31 @@ const loginPage= () => {
       }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
-    const loginData = {
+    const id = e.target.id.value;
+    const pw = e.target.pw.value;
+    console.log(id, pw)
+    const response = await signIn("id-password-credential", {
       id: id,
-      pw: pw
-    }
+      password: pw,
+      redirect: false,
+      callbackUrl: "http://localhost:3000/"
+    });
 
-    axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/login", null, {params: loginData} ).then((res)=>{
-      setUserName(res.data)
-    })
+    if(response)
+      Router.push('/')
   }
+  if (session) {
+    if( userName <= 0){
+      setUserName(session.session.user.name)
+    }
+    return (
+        <>
+          <h2>{userName}님 이미 로그인하셨습니다.</h2>
+        </>
+    )
+  } else{
   return(
       <Div>
         <FormLogin className={"loginForm"} onSubmit={handleSubmit}>
@@ -50,7 +66,7 @@ const loginPage= () => {
 
 
 
-  )
+  )}
 };
 const Div = styled.div`
   
