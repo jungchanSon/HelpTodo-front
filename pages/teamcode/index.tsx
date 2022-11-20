@@ -7,21 +7,27 @@ import RequestLogin from "../../components/RequestLogin";
 const teamcodePage = () => {
   const {data: session} = useSession();
 
-  if(!session){
-    return(
-        <RequestLogin />
-    )
-  } else
+  // if(!session){
+  //   return(
+  //       <RequestLogin />
+  //   )
+  // } else
   return(
       <>
         <LayoutContainer>
 
           <InputTeamCode>
+            팀 생성 하기
+            <FormCode>
+              <InputCode type="text"/> <br/>
+              <SubmitCode type="submit" value={"팀 생성하기"}/>
+            </FormCode>
+          </InputTeamCode>
+          <InputTeamCode>
             팀 초대 코드 입력
             <FormCode>
-              <InputCode type="text"/>
-
-              <SubmitCode type="submit"/>
+              <InputCode type="text"/><br/>
+              <SubmitCode type="submit" value={"팀 가입하기"}/>
             </FormCode>
           </InputTeamCode>
         </LayoutContainer>
