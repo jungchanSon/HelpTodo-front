@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import {useState} from "react";
 import {useSession} from "next-auth/react";
+import Router from "next/router";
 
 const signupPage = () => {
   //TODO : usestate로 validation 즉각 피드백 주기
@@ -29,8 +30,7 @@ const signupPage = () => {
         }
 
         axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/signup", null, {params: signupData} ).then((res)=>{
-          console.log(res)
-          console.log(res.data)
+          Router.push("/login")
         })
       } else{ // pw != pw2
         alert("패스워드 확인이 틀렸습니다.")

@@ -5,8 +5,8 @@ import userStore from "../store/user";
 
 export default function index() {
   const {data: session} = useSession();
-  const {userName, setUserName} = userStore()
-
+  const {userName, setUserName, userId, setUserId} = userStore()
+  console.log(userName, userId)
   return (
     <div>
       main page <br/>

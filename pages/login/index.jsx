@@ -28,6 +28,7 @@ const loginPage= () => {
     const id = e.target.id.value;
     const pw = e.target.pw.value;
     console.log(id, pw)
+
     const response = await signIn("id-password-credential", {
       id: id,
       password: pw,
@@ -35,12 +36,17 @@ const loginPage= () => {
       callbackUrl: "http://localhost:3000/"
     });
 
-    if(response)
+    if(response.ok){
+
+      await console.log("id", id)
       Router.push('/')
+    }
   }
   if (session) {
     if( userName <= 0){
       setUserName(session.session.user.name)
+      console.log(session)
+      console.log("session.token.token.user.id", session.token.token.user.id)
     }
     return (
         <>

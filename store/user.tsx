@@ -1,14 +1,16 @@
 import create from "zustand";
 
 interface dataInfo{
-  userName: String,
-  setUserName: (props: string) => void;
-  removeUserName: () => void;
+  userName: string,
+  userId: string,
+  setUserName: (props: string) => void,
+  removeUserName: () => void,
 }
 
 const userStore = create<dataInfo>(set => ({
   userName: "",
-  setUserName: (prop:String) => set((state)=> ({userName: prop})),
+  userId: "",
+  setUserName: (prop:string) => set((state)=> ({userName: prop})),
   removeUserName: () => set((state)=> ({userName: ""}))
 }))
 

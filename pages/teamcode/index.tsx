@@ -1,8 +1,17 @@
 import {NextPage} from "next";
 import styled from "styled-components";
 import React from "react";
+import {useSession} from "next-auth/react";
+import RequestLogin from "../../components/RequestLogin";
 
-const teamcodePage:NextPage = () => {
+const teamcodePage = () => {
+  const {data: session} = useSession();
+
+  if(!session){
+    return(
+        <RequestLogin />
+    )
+  } else
   return(
       <>
         <LayoutContainer>
