@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
+import {useSession} from "next-auth/react";
+import userStore from "../store/user";
 
 export default function index() {
+  const {data: session} = useSession();
+  const {userName, setUserName, userId, setUserId} = userStore()
+  console.log(userName, userId)
   return (
     <div>
       main page <br/>

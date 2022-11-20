@@ -1,7 +1,16 @@
 import React from 'react';
 import styled from "styled-components";
+import RequestLogin from "../../components/RequestLogin";
+import {useSession} from "next-auth/react";
 
-export default function Home() {
+const teamListPage = () => {
+  const {data: session} = useSession();
+
+  if(!session){
+    return(
+      <RequestLogin />
+    )
+  } else
   return (
       <div>
         <TeamlistContainer>
@@ -53,3 +62,5 @@ const InputCode = styled.input`
 const SubmitCode = styled.input`
 
 `
+
+export default teamListPage;
