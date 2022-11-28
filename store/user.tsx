@@ -7,6 +7,7 @@ interface dataInfo{
   removeUserName: () => void,
 }
 
+
 const userStore = create<dataInfo>(set => ({
   userName: "",
   userId: "",

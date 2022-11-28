@@ -1,36 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.loginForm{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/*.loginForm{*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  justify-content: center;*/
 
 
-  width: 40vw;
-  background: floralwhite;
-  border: 2px black solid;
-  border-radius: 30px;
-  padding: 3vw;
-  margin: 10vh;
+/*  width: 40vw;*/
+/*  background: floralwhite;*/
+/*  border: 2px black solid;*/
+/*  border-radius: 30px;*/
+/*  padding: 3vw;*/
+/*  margin: 10vh;*/
 
-  margin: 4vh auto;
+/*  margin: 4vh auto;*/
 
-}
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+/*}*/
+/*html,*/
+/*body {*/
+/*  padding: 0;*/
+/*  margin: 0;*/
+/*  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,*/
+/*    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;*/
+/*}*/
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/*a {*/
+/*  color: inherit;*/
+/*  text-decoration: none;*/
+/*}*/
 
-* {
-  box-sizing: border-box;
-}
+/** {*/
+/*  box-sizing: border-box;*/
+/*}*/
