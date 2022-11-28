@@ -5,6 +5,8 @@ import {useSession} from "next-auth/react";
 import RequestLogin from "../../components/RequestLogin";
 import axios from "axios";
 import Router from "next/router";
+// @ts-ignore
+import TeamList from "/components/TeamCode/TeamList";
 
 const teamcodePage = () => {
   const {data: session} = useSession();
@@ -12,17 +14,19 @@ const teamcodePage = () => {
   const submitCreateTeam = (e) => {
     e.preventDefault()
 
-    let teamName = e.target.teamName.value;
-    const signupData = {
-      name: name,
-      id: id,
-      pw: pw
-    }
+    const userId = session.token.token.user.id
+    const teamName = e.target.teamName.value;
+    const teamPW = e.target.teamPw.value;
 
-    axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/signup", null, {params: signupData} ).then((res)=>{
+    const createTeamData = {
+      memberId: userId,
+      teamName: teamName,
+      teamPassword: teamPW,
+    }
+    //
+    axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/create", null, {params: createTeamData} ).then((res)=>{
       console.log(res.data)
     })
-
 
     console.log(teamName)
 
@@ -42,6 +46,7 @@ const teamcodePage = () => {
             팀 생성 하기
             <FormCode onSubmit={submitCreateTeam}>
               <InputCode type="text" placeholder={"팀 이름"} name={"teamName"}/> <br/>
+              <InputCode type="text" placeholder={"팀 비번"} name={"teamPw"}/> <br/>
               <SubmitCode type="submit" value={"팀 생성하기"}/>
             </FormCode>
           </InputTeamCode>
@@ -52,7 +57,11 @@ const teamcodePage = () => {
               <SubmitCode type="submit" value={"팀 가입하기"}/>
             </FormCode>
           </InputTeamCode>
+
+          <TeamList></TeamList>
         </LayoutContainer>
+
+
       </>
   )
 }

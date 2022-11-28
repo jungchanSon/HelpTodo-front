@@ -6,6 +6,7 @@ import {ThemeProvider} from "styled-components";
 import defaultTheme from "../styles/Themes/theme";
 import { SessionProvider } from "next-auth/react"
 
+import 'bootstrap/dist/css/bootstrap.css';
 function MyApp({
   Component,
   pageProps:{session, ...pageProps},

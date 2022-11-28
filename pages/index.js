@@ -1,31 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from "styled-components";
 import {useSession} from "next-auth/react";
 import userStore from "../store/user";
 
-export default function index() {
+const index = () => {
   const {data: session} = useSession();
   const {userName, setUserName, userId, setUserId} = userStore()
+
   console.log(userName, userId)
+
   return (
     <div>
-
       main page <br/>
       사용방법!
-
-      <div className="mb-3">
-        <label htmlFor="exampleFormControlInput1" className="form-label">Email
-          address</label>
-        <input type="email" className="form-control"
-               id="exampleFormControlInput1" placeholder="name@example.com" />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="exampleFormControlTextarea1" className="form-label">Example
-          textarea</label>
-        <textarea className="form-control" id="exampleFormControlTextarea1"
-                  rows="3"></textarea>
-      </div>
-
 
       <H1 className={"text-3xl font-bold underline"}>팀장</H1>
           <H2>1. 팀 생성해주세요.</H2>
@@ -45,7 +32,8 @@ export default function index() {
 
       <hr/>
       <H1>채팅하기</H1>
-
+      <h1></h1>
+      <H1></H1>
       <hr/>
       <H1>화상채팅하기</H1>
 
@@ -54,9 +42,10 @@ export default function index() {
   )
 }
 const H1 = styled.h1`
-      
+  
 `
 
 const H2 = styled.h2`
     margin-left: 2vw;
 `
+export default index;

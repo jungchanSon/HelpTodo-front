@@ -2,9 +2,38 @@ import React from 'react';
 import styled from "styled-components";
 import RequestLogin from "../../components/RequestLogin";
 import {useSession} from "next-auth/react";
+import axios from "axios";
 
 const teamListPage = () => {
   const {data: session} = useSession();
+  let userId = null;
+  if(session)
+    userId = session.token.token.user.id
+
+  const userIdData = {
+    userId : userId
+  }
+
+  axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findTeamList", null).then((res)=>{
+    console.log("getRooms")
+    console.log(res.data)
+    setRooms(res.data)
+    console.log("rooms", rooms)
+  }).catch((e) => {
+
+    console.log(e)
+  })
+  console.log("userid >", userId)
+  axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam", {params: userIdData}).then((res)=>{
+    console.log("getMyRooms")
+    console.log(res.data)
+    setMyRooms(res.data)
+    console.log("myRooms", myRooms)
+
+  }).catch((e) => {
+
+    console.log(e)
+  })
 
   if(!session){
     return(
