@@ -3,34 +3,12 @@ import styled from "styled-components";
 import axios from "axios";
 import {useSession} from "next-auth/react";
 import roomList from "../../store/roomList";
-import myRoomList from "../../store/myRoomList";
+import roomList from "../../store/roomList";
 
 const myteamPage:NextPage = () => {
 
   const {data: session} = useSession();
-  const {rooms, setRooms} = roomList()
-  const {myRooms, setMyRooms} = myRoomList()
 
-  axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findTeamList",null).then((res)=>{
-    console.log("getRooms")
-    console.log(res.data)
-    setRooms(res.data)
-    console.log("rooms", rooms)
-  }).catch((e) => {
-
-    console.log(e)
-  })
-
-  axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam",null).then((res)=>{
-    console.log("getMyRooms")
-    console.log(res.data)
-    setMyRooms(res.data)
-    console.log("myRooms", myRooms)
-
-  }).catch((e) => {
-
-    console.log(e)
-  })
 
   // if(!session){
   //   return(

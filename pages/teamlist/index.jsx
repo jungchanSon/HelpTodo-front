@@ -1,52 +1,87 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
-import RequestLogin from "../../components/RequestLogin";
 import {useSession} from "next-auth/react";
 import axios from "axios";
+import roomList from "../../store/roomList";
+import TeamRoomCard from "../../components/teamlist/TeamRoomCard";
 
-const teamListPage = () => {
+
+
+const TeamListPage = () => {
+
   const {data: session} = useSession();
+  const {myRooms, setMyRooms, rooms, setRooms} = roomList();
+
+  let _myRoomList;
+  let _roomList;
   let userId = null;
+
+
   if(session)
     userId = session.token.token.user.id
 
   const userIdData = {
     userId : userId
   }
+  useEffect(()=>{
+    axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam", {params: userIdData}).then((res)=>{
+      setMyRooms(res.data)
 
-  axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findTeamList", null).then((res)=>{
-    console.log("getRooms")
-    console.log(res.data)
-    setRooms(res.data)
-    console.log("rooms", rooms)
-  }).catch((e) => {
+    }).catch((e) => {
+      console.log(e)
+    })
+    axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findOtherTeamList", {params: userIdData}).then((res)=>{
+      setRooms(res.data)
+    }).catch((e) => {
+      console.log(e)
+    })
+  }, []);
 
-    console.log(e)
-  })
-  console.log("userid >", userId)
-  axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam", {params: userIdData}).then((res)=>{
-    console.log("getMyRooms")
-    console.log(res.data)
-    setMyRooms(res.data)
-    console.log("myRooms", myRooms)
-
-  }).catch((e) => {
-
-    console.log(e)
-  })
-
-  if(!session){
-    return(
-      <RequestLogin />
-    )
-  } else
+  if(rooms){
+    rooms.map((item)=>{
+      console.log("item", item)
+    })
+  }
+  // if(!session){
+  //   return(
+  //     <RequestLogin />
+  //   )
+  // } else
   return (
       <div>
         <TeamlistContainer>
 
-            <TeamList className={""} >
-                  내 팀 목록
-            </TeamList>
+          <TeamList>
+                내 팀 목록
+            <div className="list-group">
+              { myRooms ?
+                myRooms.map((item, key)=> (
+                  <TeamRoomCard
+                      userId = {userId}
+                      key ={key}
+                      name={item.name}
+                      cDate={item.createDate}
+                      creator={item.creator}
+                      type={"mine"}/>
+                )) : null }
+            </div>
+          </TeamList>
+
+          <TeamList >
+            <div className="list-group">
+              {
+                rooms ?
+                rooms.map((item, key)=>(
+                  <TeamRoomCard
+                      userId = {userId}
+                      key ={key}
+                      name={item.name}
+                      cDate={item.createDate}
+                      creator={item.creator}
+                      type={"other"}/>
+                )) : null}
+            </div>
+          </TeamList>
         </TeamlistContainer>
       </div>
   )
@@ -68,10 +103,11 @@ const InputTeamCode = styled.div`
       margin: 5vh;
       padding: 4vh;
 `
-const TeamList = styled.h1`
+const TeamList = styled.div`
       border: 1px solid red;
       margin: 5vh;
       padding: 4vh;
+      width: 50%;
 
 `
 const H1 = styled.h1`
@@ -92,4 +128,4 @@ const SubmitCode = styled.input`
 
 `
 
-export default teamListPage;
+export default TeamListPage;
