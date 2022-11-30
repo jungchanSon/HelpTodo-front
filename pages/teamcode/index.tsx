@@ -26,6 +26,9 @@ const teamcodePage = () => {
     //
     axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/create", null, {params: createTeamData} ).then((res)=>{
       console.log(res.data)
+      if(res.data === "succ"){
+        Router.push('/teamlist')
+      }
     })
 
     console.log(teamName)

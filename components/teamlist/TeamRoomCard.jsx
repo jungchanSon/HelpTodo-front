@@ -1,21 +1,31 @@
 import React, {useEffect, useRef} from 'react'
-import {forEach} from "react-bootstrap/ElementChildren";
-import roomList from "../../store/roomList";
 import styled, {css, keyframes} from "styled-components";
 import axios from "axios";
 import {useSession} from "next-auth/react";
+import roomData from "../../store/roomData";
+import Router from "next/router";
+import {log} from "util";
 
 const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
   const {data: session} = useSession();
+  const {setRoomName, setRoomCreator, setRoomCreateDate} = roomData()
+
   let userId = null;
 
   if(session)
     userId = session.token.token.user.id
   console.log("userIduserIduserIduserId", userId)
-  const enterRoomNoPw = () =>{
-    if(type==="mine"){
+  const clickRoom = async (e) =>{
+    e.preventDefault()
 
+    if(type==="mine"){
+      await setRoomName(name)
+      await setRoomCreateDate(cDate)
+      await setRoomCreator(creator)
+
+      Router.push('/myteam')
     }
+
   }
   const enterRoomWithPw = (e) => {
     e.preventDefault()
@@ -37,7 +47,7 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
   return(
     <div className="list-group-item list-group-item-action"
        aria-current="true"
-        onClick={enterRoomNoPw}>
+        onClick={clickRoom}>
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1">{name}</h5>
         <small>{cDate}</small>
