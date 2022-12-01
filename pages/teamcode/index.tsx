@@ -1,16 +1,17 @@
-import {NextPage} from "next";
 import styled from "styled-components";
 import React from "react";
 import {useSession} from "next-auth/react";
-import RequestLogin from "../../components/RequestLogin";
 import axios from "axios";
 import Router from "next/router";
 // @ts-ignore
 import TeamList from "/components/TeamCode/TeamList";
 
 const teamcodePage = () => {
+
   const {data: session} = useSession();
 
+
+  // /todolist/all
   const submitCreateTeam = (e) => {
     e.preventDefault()
 
@@ -23,7 +24,7 @@ const teamcodePage = () => {
       teamName: teamName,
       teamPassword: teamPW,
     }
-    //
+
     axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/create", null, {params: createTeamData} ).then((res)=>{
       console.log(res.data)
       if(res.data === "succ"){
@@ -32,8 +33,6 @@ const teamcodePage = () => {
     })
 
     console.log(teamName)
-
-
   }
 
   // if(!session){
