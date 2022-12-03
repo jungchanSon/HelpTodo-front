@@ -9,10 +9,10 @@ import Router from "next/router";
 
 const loginPage= () => {
   const {data: session} = useSession();
+  const {userId, userName, setUserName, setUserId} = userStore();
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
 
-  const {userName, setUserName} = userStore()
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -38,7 +38,10 @@ const loginPage= () => {
 
     if(response.ok){
 
-      await console.log("id", id)
+      await setUserId(id)
+
+      await console.log("id", userId)
+
       Router.push('/')
     }
   }

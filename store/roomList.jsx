@@ -9,6 +9,8 @@ const roomList = create(set => ({
   setRooms: (prop) =>
       set((state) => ({rooms: prop})),
 
+  // removeItemRooms: (prop) =>
+  //     set((state) => ({rooms: state.rooms.filter((item)=>{item != })}),
 
 }));
 

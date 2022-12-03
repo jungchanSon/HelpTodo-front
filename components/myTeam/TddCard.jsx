@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const Todo = ({ttdData}) => {
+const TddCard = ({ttdData}) => {
 
   const [detail, setDetail] = useState()
 
@@ -24,4 +24,4 @@ const Todo = ({ttdData}) => {
   )
 }
 
-export default Todo
+export default TddCard

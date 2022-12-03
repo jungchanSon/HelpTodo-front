@@ -4,15 +4,18 @@ import axios from "axios";
 import {useSession} from "next-auth/react";
 import roomData from "../../store/roomData";
 import TodoList from '../../components/myTeam/TodoList'
+import LeftMenu from '../../components/myTeam/LeftMenu'
 import Router from "next/router";
 import {useEffect, useState} from "react";
+import {LeftRightDialogHeader} from "next/dist/client/components/react-dev-overlay/internal/components/LeftRightDialogHeader";
+import userStore from "../../store/user";
 
 const MyteamPage:NextPage = () => {
 
+  const {userId, userName, setUserName, setUserId} = userStore();
   const [tddData, setTddData] = useState()
-  const {data: session} = useSession();
   const {roomName, roomCreator, roomCreateDate} = roomData()
-  const userId = session.token.token.user.id
+
 
   useEffect(()=>{
 
@@ -23,10 +26,9 @@ const MyteamPage:NextPage = () => {
     console.log(createRoomData)
 
     axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/all", null, {params : createRoomData}).then((res)=>{
-      console.log(res.data)
+      console.log("all", res.data)
       setTddData(res.data)
     })
-
   }, []);
 
 
@@ -53,6 +55,9 @@ const MyteamPage:NextPage = () => {
     })
   }
 
+  //테스트용
+
+
   // if(!session){
   //   return(
   //       <RequestLogin />
@@ -63,6 +68,7 @@ const MyteamPage:NextPage = () => {
         <h3>방 이름 : {roomName}</h3>
         <h4>방장 : {roomCreator}</h4>
         <h5>방 생성일 : {roomCreateDate}</h5>
+        <LeftMenu></LeftMenu>
         <GridLayout>
           <Div>
             <h1>팀 목록</h1>
@@ -81,6 +87,9 @@ const MyteamPage:NextPage = () => {
                   tddData.map((item, key) => (
                     <TodoList
                         key={key}
+                        todolistId={item.id}
+                        title = {item.title}
+                        creator = {item.creator}
                         resTodo ={item.resTodos}
                         resDoing={item.resDoings}
                         resDone={item.resDones}
@@ -89,9 +98,9 @@ const MyteamPage:NextPage = () => {
                   : console.log("NONE")
             }
           </Div>
-          <Div>
-            <h1>파일 공유 칸</h1>
-          </Div>
+          {/*<Div>*/}
+          {/*  <h1>파일 공유 칸</h1>*/}
+          {/*</Div>*/}
         </GridLayout>
       </div>
   )
@@ -99,7 +108,7 @@ const MyteamPage:NextPage = () => {
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 6fr;
 
   border: 1px solid black;
   margin: 3em 0; 

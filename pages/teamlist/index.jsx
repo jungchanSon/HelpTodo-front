@@ -30,6 +30,7 @@ const TeamListPage = () => {
     }).catch((e) => {
       console.log(e)
     })
+
     axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findOtherTeamList", {params: userIdData}).then((res)=>{
       setRooms(res.data)
     }).catch((e) => {
