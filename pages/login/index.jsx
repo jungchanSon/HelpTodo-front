@@ -9,10 +9,10 @@ import Router from "next/router";
 
 const loginPage= () => {
   const {data: session} = useSession();
+  const {userId, userName, setUserName, setUserId} = userStore();
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
 
-  const {userName, setUserName} = userStore()
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -38,7 +38,10 @@ const loginPage= () => {
 
     if(response.ok){
 
-      await console.log("id", id)
+      await setUserId(id)
+
+      await console.log("id", userId)
+
       Router.push('/')
     }
   }
@@ -57,15 +60,42 @@ const loginPage= () => {
   return(
       <Div>
         <FormLogin className={"loginForm"} onSubmit={handleSubmit}>
-          <InputId type="text" placeholder={"ID"} className={"p-3 hover:border-4 hover:bg-gray-100 m-2"} name={"id"}
-                   onChange={handleInput}></InputId>
-          <InputPw type="password" placeholder={"PASSWORD"} className={"p-3 hover:border-4 hover:bg-gray-100 m-2"} name={"pw"}
-                   onChange={handleInput}></InputPw>
 
-          <SubmitLogin type="submit"  className={"p-3 m-2"} value={"로그인"}></SubmitLogin>
-          <Link href={"/signup"} className={"text-center m-2"}>
-            <Psignup className={"text-center p-3 bg-rose-100"}>회원가입</Psignup>
-          </Link>
+          <div class="input-group mb-4" style={{height: "50px"}}>
+            <span class="input-group-text"
+                  id="inputGroup-sizing-default">아이디</span>
+            <input type="text" className="form-control"
+                   aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default"
+                   placeholder={"ID"}
+                   onChange={handleInput}
+                   name={"id"}
+                   style={{fontSize: "1.5em"}}/>
+          </div>
+
+          <div class="input-group mb-3" style={{height: "50px"}}>
+            <span class="input-group-text"
+                  id="inputGroup-sizing-default">비밀번호</span>
+            <input type="password" className="form-control"
+                   aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default"
+                   placeholder={"PW"}
+                   onChange={handleInput}
+                   name={"pw"}
+                   style={{fontSize: "1.5em"}}/>
+          </div>
+          <Layout>
+            <button type="submit" className="btn btn-outline-dark">로그인</button>
+            <Link href={"/signup"}>
+              <button type="button"
+                      className="btn btn-outline-secondary">회원가입
+              </button>
+            </Link>
+          </Layout>
+          {/*<input className="btn btn-primary" type="submit" value="로그인" />*/}
+          {/*<Link href={"/signup"} className={"text-center m-2"}>*/}
+          {/*  <Psignup className={"text-center p-3 bg-rose-100"}>회원가입</Psignup>*/}
+          {/*</Link>*/}
         </FormLogin>
       </Div>
 
@@ -78,6 +108,10 @@ const Div = styled.div`
   
 `
 const FormLogin = styled.form`
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 10vh 30vw;
+  padding: 3vh
 `
 const InputId = styled.input` 
   
@@ -92,5 +126,11 @@ const SubmitLogin = styled.input`
 `
 const Psignup = styled.p`
   border: 1px solid black;
+`
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 3vh 0;
 `
 export default loginPage;

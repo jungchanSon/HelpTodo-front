@@ -7,7 +7,7 @@ const index = () => {
   const {data: session} = useSession();
   const {userName, setUserName, userId, setUserId} = userStore()
 
-  console.log(userName, userId)
+  console.log("userStore", userName, userId)
 
   return (
     <div>

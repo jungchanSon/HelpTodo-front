@@ -5,19 +5,24 @@ import {useSession} from "next-auth/react";
 import roomData from "../../store/roomData";
 import Router from "next/router";
 import {log} from "util";
+import roomList from "../../store/roomList";
 
 const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
   const {data: session} = useSession();
   const {setRoomName, setRoomCreator, setRoomCreateDate} = roomData()
+  const {myRooms, setMyRooms, rooms, setRooms} = roomList();
 
   let userId = null;
 
   if(session)
     userId = session.token.token.user.id
   console.log("userIduserIduserIduserId", userId)
+  const userIdData = {
+    userId : userId
+  }
   const clickRoom = async (e) =>{
     e.preventDefault()
-
+    console.log("clroom")
     if(type==="mine"){
       await setRoomName(name)
       await setRoomCreateDate(cDate)
@@ -29,7 +34,6 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
   }
   const enterRoomWithPw = (e) => {
     e.preventDefault()
-
     const teamPW = e.target.teamPw.value;
 
     const joinTeamData = {
@@ -37,41 +41,68 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
       teamName: name,
       teamPassword: teamPW,
     }
-    //
+
+    console.log(joinTeamData)
+
     axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/join", null, {params: joinTeamData} ).then((res)=>{
       console.log(res.data)
+      axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam", {params: userIdData}).then((res)=>{
+        setMyRooms(res.data)
+
+      }).catch((e) => {
+        console.log(e)
+      })
+
+      axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findOtherTeamList", {params: userIdData}).then((res)=>{
+        setRooms(res.data)
+      }).catch((e) => {
+        console.log(e)
+      })
     })
-    console.log(joinTeamData)
   }
 
   return(
-    <div className="list-group-item list-group-item-action"
-       aria-current="true"
-        onClick={clickRoom}>
-      <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1">{name}</h5>
-        <small>{cDate}</small>
-      </div>
-      <p className="mb-1"></p>
-      <small>{creator}</small>
-      <div className="input-group mb-3">
+      <>
+      { type === "mine" ?
+        <div className="list-group-item list-group-item-action my-1 py-4"
+           aria-current="true"
+            onClick={clickRoom}>
+          <div className="d-flex w-100 justify-content-between">
+            <h5 className="mb-1">팀 이름 : {name}</h5>
+            <small> 생성일 : {cDate.slice(0, 10)}</small>
+          </div>
+          <p className="mb-3"></p>
+          <small>팀장 : {creator}</small>
+          <div className="input-group">
 
-      </div>
-      { type === "other" ?
-        <BoxRoomPw className="input-group mb-3"
-          onSubmit={enterRoomWithPw}>
-          <input type="text" className="form-control"
-                 placeholder="방 비밀번호 입력 없을 경우, 공란으로"
-                 aria-label="방 비밀번호 입력 없을 경우, 공란으로"
-                 aria-describedby="button-addon2"
-                  name ={"teamPw"}/>
-            <button className="btn btn-outline-secondary" type="submit"
-                    id="button-addon2"> 입장
-            </button>
-        </BoxRoomPw>
-          : null
+          </div>
+        </div> : null
       }
-    </div>
+        { type === "other" ?
+            <div className="list-group-item list-group-item-action my-1 py-4"
+                 aria-current="true">
+              <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">팀 이름 : {name}</h5>
+                <small> 생성일 : {cDate.slice(0, 10)}</small>
+              </div>
+              <p className="mb-1"></p>
+              <small>팀장 : {creator}</small>
+              <div className="input-group mb-3">
+                <form className="input-group mb-3"
+                      onSubmit={enterRoomWithPw}>
+                  <input type="text" className="form-control"
+                         placeholder="방 비밀번호 입력 없을 경우, 공란으로"
+                         name ={"teamPw"} />
+                  <button className="btn btn-outline-secondary" type="submit"
+                          id="button-addon2"> 입장
+                  </button>
+                </form>
+              </div>
+            </div>
+              : null
+        }
+
+      </>
   )
 }
 

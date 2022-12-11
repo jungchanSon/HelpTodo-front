@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-
+import Container from 'react-bootstrap/Container';
 import userStore from "/store/user";
 import Image from "next/image";
 import logo from "/public/logo.jpg"
@@ -15,56 +15,89 @@ export default function Navbar() {
     console.log(userName)
     return(
         <div>
-          <Nav>
-            <Link href="/">
-              <Image src={logo} alt={"로고"}/>
-            </Link>
+          <nav class="navbar sticky-top" style={{backgroundColor: "#e3f2fd"}}>
 
-            <RightLayout>
-              <LoginLayout>
-                <span onClick={() => {signOut()}} className={"px-4 hover:bg-gray-100 text-lg font-bold" }>{userName} (로그아웃)</span>
-              </LoginLayout>
-              <LinkLayout>
-                <Link href="/">
-                  <A className={"border border-indigo-600"}>홈</A>
-                </Link>
-                <Link href="/teamlist">
-                  <A>내 팀 목록</A>
-                </Link>
-                <Link href="/teamcode">
-                  <A>팀 생성 & 가입</A>
-                </Link>
-              </LinkLayout>
-            </RightLayout>
-          </Nav>
+
+            <LinkLayout>
+              <button type="button"
+                      className="mx-3 btn btn-outline-primary">홈
+              </button>
+              <Link href="/teamlist">
+                <button type="button"
+                        className="mx-3 btn btn-outline-primary">팀 목록
+                </button>
+              </Link>
+              <Link className={" btn-outline-primary"} href="/teamcode">
+                <button type="button"
+                        className="mx-3 btn btn-outline-primary">팀 생성&가입
+                </button>
+              </Link>
+            </LinkLayout>
+
+            <LoginLayout>
+
+              <span onClick={() => {signOut()}} className={"px-4 hover:bg-gray-100 text-lg font-bold" }>
+
+
+                <button type="button"
+                      className="btn btn-outline-danger">{userName} (로그아웃)</button>
+              </span>
+            </LoginLayout>
+
+          </nav>
+
+            <Nav>
+              <Link href="/">
+                <Image src={logo} alt={"로고"}/>
+              </Link>
+
+              <RightLayout>
+
+              </RightLayout>
+            </Nav>
         </div>
     )
   }else
   return (
       <div>
+        <nav class="navbar sticky-top" style={{backgroundColor: "#e3f2fd"}}>
+          <div class="container-fluid">
+            <LinkLayout>
+              <Link href="/">
+                <button type="button"
+                        className="mx-3 btn btn-outline-primary">홈
+                </button>
+              </Link>
+              <Link href="/teamlist">
+                <button type="button"
+                        className="mx-3 btn btn-outline-primary">팀 목록
+                </button>
+              </Link>
+              <Link href="/teamcode">
+                <button type="button"
+                        className="mx-3 btn btn-outline-primary">팀 생성&가입
+                </button>
+              </Link>
+            </LinkLayout>
+
+            <LoginLayout>
+              <span onClick={() => {signIn()}} className={"px-4 hover:bg-gray-100 text-lg font-bold" }>
+                <button type="button"
+                        className="btn btn-outline-success">로그인</button>
+              </span>
+              <Link href={"/signup"} className={"px-4 hover:bg-gray-100 text-lg font-bold"}>
+                <button type="button" className="btn btn-outline-info">회원가입
+                </button>
+              </Link>
+            </LoginLayout>
+          </div>
+        </nav>
         <Nav>
           <Link href="/">
             <Image src={logo} alt={"로고"}/>
           </Link>
-
+          <h3 className={"my-auto"}>팀프로젝트 계획을 도와드립니다 !</h3>
           <RightLayout>
-            <LoginLayout>
-              <span onClick={() => {signIn()}} className={"px-4 hover:bg-gray-100 text-lg font-bold" }>로그인</span>
-              <Link href={"/signup"} className={"px-4 hover:bg-gray-100 text-lg font-bold"}>
-                회원가입
-              </Link>
-            </LoginLayout>
-            <LinkLayout>
-              <Link href="/">
-                <A className={"border border-indigo-600"}>홈</A>
-              </Link>
-              <Link href="/teamlist">
-                <A>내 팀 목록</A>
-              </Link>
-              <Link href="/teamcode">
-                <A>팀 생성 & 가입</A>
-              </Link>
-            </LinkLayout>
           </RightLayout>
         </Nav>
       </div>
@@ -72,7 +105,6 @@ export default function Navbar() {
 }
 
 const A = styled.div`
-  border: 3px solid blue;
   font-size: 30px;
   margin: 0 1vw;
 `
@@ -80,9 +112,10 @@ const A = styled.div`
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
-  border: 3px solid black;
   
   padding: 0 5%;
+  
+  border-bottom: 2px solid darkslategray;
 `
 
 const LinkLayout = styled.div`
@@ -91,9 +124,9 @@ const LinkLayout = styled.div`
 `
 const RightLayout = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: flex-end;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `
 
 const LoginLayout = styled.div`
