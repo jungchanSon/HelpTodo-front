@@ -4,7 +4,6 @@ import axios from "axios";
 import {useSession} from "next-auth/react";
 import roomData from "../../store/roomData";
 import Router from "next/router";
-import {log} from "util";
 import roomList from "../../store/roomList";
 
 const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
@@ -16,13 +15,11 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
 
   if(session)
     userId = session.token.token.user.id
-  console.log("userIduserIduserIduserId", userId)
   const userIdData = {
     userId : userId
   }
   const clickRoom = async (e) =>{
     e.preventDefault()
-    console.log("clroom")
     if(type==="mine"){
       await setRoomName(name)
       await setRoomCreateDate(cDate)
@@ -42,10 +39,8 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
       teamPassword: teamPW,
     }
 
-    console.log(joinTeamData)
 
     axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/join", null, {params: joinTeamData} ).then((res)=>{
-      console.log(res.data)
       axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam", {params: userIdData}).then((res)=>{
         setMyRooms(res.data)
 

@@ -41,15 +41,6 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
 
   }, [todoDatas])
 
-  if(todo) {
-    console.log("resTodo -> ", resTodo)
-    console.log("resDoing -> ", resDoing)
-    console.log("resDone -> ", resDone)
-    console.log("todo -> ", todo)
-    console.log("doing -> ", doing)
-    console.log("done -> ", done)
-  }
-
   const clickDeleteTodolist = (e) => {
     e.preventDefault()
 
@@ -57,16 +48,13 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
       todoListId: todolistId
     }
     axios.delete(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/delete", {params: data}).then((res) =>{
-      console.log(res.data)
 
       const reqData = {
         userId: userId,
         teamName: roomName,
       }
-      console.log(reqData)
 
       axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/all", null, {params : reqData}).then((res)=>{
-        console.log("all", res.data)
 
         setTodoDatas(res.data)
       })
@@ -81,7 +69,6 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
       tddType: "TODO"
     }
     axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/change/tddType", {params: data}).then((res) =>{
-      console.log(res.data)
     })
     todoSectionRef.current.appendChild(tddRef.current)
   }
@@ -94,7 +81,6 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
       tddType: "DOING"
     }
     axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/change/tddType", {params: data}).then((res) =>{
-      console.log(res.data)
     })
 
     doingSectionRef.current.appendChild(tddRef.current)
@@ -108,7 +94,6 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
       tddType: "DONE"
     }
     axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/change/tddType", {params: data}).then((res) =>{
-      console.log(res.data)
     })
 
     doneSectionRef.current.appendChild(tddRef.current)
@@ -116,12 +101,10 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
 
   const onDragOver = (e) => {
     e.preventDefault()
-    console.log("asd")
   }
 
   const addRefs = (el, item) => {
     tddRef.current = el.target
-    console.log(tddRef.current)
   }
   return (
       <div className={"my-4"}>

@@ -13,7 +13,6 @@ const TddCard = ({ttdData, parent}) => {
   const [detail, setDetail] = useState()
 
   useEffect(()=>{
-    console.log(ttdData)
 
     setDetail(ttdData)
   }, [])
@@ -29,7 +28,6 @@ const TddCard = ({ttdData, parent}) => {
         teamName: roomName
       }
       axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/all", null, {params : reqData}).then((res)=>{
-        console.log("all", res.data)
 
         setTodoDatas(res.data)
       })
