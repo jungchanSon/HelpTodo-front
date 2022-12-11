@@ -47,9 +47,9 @@ const AddTddForm = (props) => {
   }
   return(
       <>
-          <DropdownButton variant="outline-success" title={props.title + " 추가하기"}>
+          <DropdownButton style={{display: "inline-block"}} variant="outline-success" title={props.title + " 추가하기"}>
             <Form onSubmit={submitAddTdd}>
-              <input type="text" placeholder={"내용"} name={"todoContent"}/>
+              <input type="text" placeholder={"내용"} name={"todoContent"} className={"mb-3"}/>
               <Button variant="outline-secondary" type={"submit"}>추가하기</Button>
             </Form>
           </DropdownButton>
@@ -58,7 +58,7 @@ const AddTddForm = (props) => {
 }
 
 const Form = styled.form`
-  background: slategray;
+  text-align: center;
 `
 
 export default AddTddForm

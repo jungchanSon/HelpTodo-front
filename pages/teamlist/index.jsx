@@ -52,8 +52,9 @@ const TeamListPage = () => {
       <div>
         <TeamlistContainer>
 
-          <TeamList>
-                내 팀 목록
+          <TeamList >
+            <h3 style={{textAlign:"center"}} >내 팀 목록</h3> <hr/> <br/>
+
             <div className="list-group">
               { myRooms ?
                 myRooms.map((item, key)=> (
@@ -69,6 +70,7 @@ const TeamListPage = () => {
           </TeamList>
 
           <TeamList >
+            <h3 style={{textAlign:"center"}}>다른 팀들</h3> <hr/> <br/>
             <div className="list-group">
               {
                 rooms ?
@@ -105,6 +107,7 @@ const InputTeamCode = styled.div`
       padding: 4vh;
 `
 const TeamList = styled.div`
+      
       border: 1px solid red;
       margin: 5vh;
       padding: 4vh;

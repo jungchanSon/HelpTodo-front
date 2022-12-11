@@ -17,6 +17,9 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
   if(session)
     userId = session.token.token.user.id
   console.log("userIduserIduserIduserId", userId)
+  const userIdData = {
+    userId : userId
+  }
   const clickRoom = async (e) =>{
     e.preventDefault()
     console.log("clroom")
@@ -43,35 +46,47 @@ const TeamRoomCard =  ({ name, cDate, creator, type} ) => {
 
     axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/join", null, {params: joinTeamData} ).then((res)=>{
       console.log(res.data)
+      axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findMyTeam", {params: userIdData}).then((res)=>{
+        setMyRooms(res.data)
+
+      }).catch((e) => {
+        console.log(e)
+      })
+
+      axios.get(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/team/findOtherTeamList", {params: userIdData}).then((res)=>{
+        setRooms(res.data)
+      }).catch((e) => {
+        console.log(e)
+      })
     })
   }
 
   return(
       <>
       { type === "mine" ?
-        <div className="list-group-item list-group-item-action"
+        <div className="list-group-item list-group-item-action my-1 py-4"
            aria-current="true"
             onClick={clickRoom}>
           <div className="d-flex w-100 justify-content-between">
-            <h5 className="mb-1">{name}</h5>
-            <small>{cDate}</small>
+            <h5 className="mb-1">팀 이름 : {name}</h5>
+            <small> 생성일 : {cDate.slice(0, 10)}</small>
           </div>
-          <p className="mb-1"></p>
-          <small>{creator}</small>
-          <div className="input-group mb-3">
+          <p className="mb-3"></p>
+          <small>팀장 : {creator}</small>
+          <div className="input-group">
 
           </div>
         </div> : null
       }
         { type === "other" ?
-            <div className="list-group-item list-group-item-action"
+            <div className="list-group-item list-group-item-action my-1 py-4"
                  aria-current="true">
               <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{name}</h5>
-                <small>{cDate}</small>
+                <h5 className="mb-1">팀 이름 : {name}</h5>
+                <small> 생성일 : {cDate.slice(0, 10)}</small>
               </div>
               <p className="mb-1"></p>
-              <small>{creator}</small>
+              <small>팀장 : {creator}</small>
               <div className="input-group mb-3">
                 <form className="input-group mb-3"
                       onSubmit={enterRoomWithPw}>

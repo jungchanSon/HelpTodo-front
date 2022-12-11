@@ -65,22 +65,30 @@ const MyteamPage:NextPage = () => {
   // } else
   return(
       <div>
-        <h3>방 이름 : {roomName}</h3>
-        <h4>방장 : {roomCreator}</h4>
-        <h5>방 생성일 : {roomCreateDate}</h5>
-        <LeftMenu></LeftMenu>
         <GridLayout>
           <Div>
-            <h1>팀 목록</h1>
-            <h1>투두리스트 목록</h1>
-            <h1>채팅방 가기?</h1>
+
+            <RoomInfo>
+              <h4><b>팀 이름</b></h4>
+              <h5>{roomName}</h5> <hr />
+              <h4><b>팀장</b></h4>
+              <h5>{roomCreator}</h5> <hr/>
+              <h4><b>방 생성일</b> </h4>
+              <h5>{roomCreateDate.slice(0,10)}</h5> <hr/>
+              <h5><b>팀 목록</b></h5>
+              <hr/>
+              <h5><b>투두리스트 목록</b></h5>
+              <hr/>
+
+            </RoomInfo>
           </Div>
           <Div>
-            <h1>
+            <h1 style={{textAlign: "center"}} className={"py-3"}>
               <form onSubmit={clickAddTodoList} >
-                <input type="text" name={"inputRoomName"} />
-                투두리스트 <button type="submit" className="btn btn-outline-success" >투두리스트 추가</button>
+                <input type="text" name={"inputRoomName"} className={"mx-3"} placeholder = "투두리스트 이름"/>
+                <button type="submit" className="btn btn-outline-success mx-3" >투두리스트 추가</button>
               </form>
+              <hr/>
             </h1>
             {
               tddData ?
@@ -117,5 +125,8 @@ const Div = styled.div`
   border: 1px solid black;
   
 `
-
+const RoomInfo = styled.div`
+  padding: 5px;
+  text-align: center;
+`
 export default MyteamPage
