@@ -15,8 +15,6 @@ const TeamcodePage = () => {
   const submitCreateTeam = (e) => {
     e.preventDefault()
 
-    // @ts-ignore
-    const userId = userId
     const teamName = e.target.teamName.value;
     const teamPW = e.target.teamPw.value;
 
