@@ -1,17 +1,17 @@
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import styled from "styled-components";
+import userStore from "../../store/user";
+import roomData from "../../store/roomData";
+import todoStore from "../../store/todoStore";
 
 const TddCard = ({ttdData, parent}) => {
+  const {userId, userName, setUserName, setUserId} = userStore();
+  const {roomName, roomCreator, roomCreateDate} = roomData()
+  const {todoDatas, setTodoDatas} = todoStore()
 
   const [detail, setDetail] = useState()
-  const tddRef = useRef()
 
-  var parentNode = null;
-
-  if(parent){
-    console.log(parent)
-  }
   useEffect(()=>{
     console.log(ttdData)
 
@@ -24,13 +24,18 @@ const TddCard = ({ttdData, parent}) => {
       tddId: ttdData.tddId
     }
     axios.delete(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/tdd/delete", {params: data}).then((res) =>{
-      console.log(res.data)
+      const reqData = {
+        userId: userId,
+        teamName: roomName
+      }
+      axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/all", null, {params : reqData}).then((res)=>{
+        console.log("all", res.data)
+
+        setTodoDatas(res.data)
+      })
     })
 
   }
-
-
-
 
   return (
       <TddDiv>
@@ -50,4 +55,5 @@ const TddCard = ({ttdData, parent}) => {
 const TddDiv = styled.div`
   width: 100%;
 `
+
 export default TddCard

@@ -6,6 +6,11 @@ import styled from "styled-components";
 import TddCard from "./TddCard";
 import AddTddForm from "../../components/myTeam/AddTddForm"
 import axios from "axios";
+import todoStore from "../../store/todoStore";
+import doingStore from "../../store/doingStore";
+import doneStore from "../../store/doneStore";
+import userStore from "../../store/user";
+import roomData from "../../store/roomData";
 const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
 
   const [todo, setTodo] = useState()
@@ -13,15 +18,18 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
   const [done, setDone] = useState()
   const [todoTitle, setTodoTitle] = useState()
   const [todoCreator, setTodoCreator] = useState()
+  const {userId, userName, setUserName, setUserId} = userStore();
+  const {roomName, roomCreator, roomCreateDate} = roomData()
 
   const todoSectionRef = useRef()
   const doingSectionRef = useRef()
   const doneSectionRef = useRef()
 
   const tddRef = useRef()
-  const doingRefs = useRef([])
-  const doneRefs = useRef([])
 
+  const {todoDatas, setTodoDatas} = todoStore()
+  const {doingDatas, setDoingDatas} = doingStore()
+  const {doneDatas, setDoneDatas} = doneStore()
 
 
   useEffect(()=>{
@@ -31,7 +39,7 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
     setTodoTitle(title)
     setTodoCreator(creator)
 
-  }, [])
+  }, [todoDatas])
 
   if(todo) {
     console.log("resTodo -> ", resTodo)
@@ -50,6 +58,18 @@ const TodoList = ({todolistId, title, creator, resTodo, resDoing, resDone}) => {
     }
     axios.delete(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/delete", {params: data}).then((res) =>{
       console.log(res.data)
+
+      const reqData = {
+        userId: userId,
+        teamName: roomName,
+      }
+      console.log(reqData)
+
+      axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/all", null, {params : reqData}).then((res)=>{
+        console.log("all", res.data)
+
+        setTodoDatas(res.data)
+      })
     })
   }
 

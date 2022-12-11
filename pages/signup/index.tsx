@@ -55,8 +55,8 @@ const signupPage = () => {
 
 
 
-          <div class="input-group mb-4" style={{height: "50px"}}>
-            <span class="input-group-text"
+          <div className="input-group mb-4" style={{height: "50px"}}>
+            <span className="input-group-text"
                   id="inputGroup-sizing-default">이름</span>
             <input type="text" className="form-control"
                    aria-label="Sizing example input"
@@ -70,8 +70,8 @@ const signupPage = () => {
           {/*<InputName placeholder={"이름"} className={"p-3 m-2"} name={"name"}*/}
           {/*           value={name} onChange={(e)=>{setName(e.currentTarget.value)}} />*/}
 
-          <div class="input-group mb-3" style={{height: "50px"}}>
-            <span class="input-group-text"
+          <div className="input-group mb-3" style={{height: "50px"}}>
+            <span className="input-group-text"
                   id="inputGroup-sizing-default">아이디</span>
             <input type="text" className="form-control"
                    aria-label="Sizing example input"
@@ -85,8 +85,8 @@ const signupPage = () => {
           {/*<InputId placeholder={"ID"} type={"text"} className={"p-3 m-2"} name={"id"}*/}
           {/*         value={id} onChange={(e)=>{setId(e.currentTarget.value)}} />*/}
 
-          <div class="input-group mb-3" style={{height: "50px"}}>
-            <span class="input-group-text"
+          <div className="input-group mb-3" style={{height: "50px"}}>
+            <span className="input-group-text"
                   id="inputGroup-sizing-default">비밀번호</span>
             <input type="password" className="form-control"
                    aria-label="Sizing example input"
@@ -100,8 +100,8 @@ const signupPage = () => {
           {/*<InputPw placeholder={"PASSWORD"} type={"password"} className={"p-3 m-2"} name={"pw"}*/}
           {/*         value={pw} onChange={(e)=>{setPw(e.currentTarget.value)}} />*/}
 
-          <div class="input-group mb-3" style={{height: "50px"}}>
-            <span class="input-group-text"
+          <div className="input-group mb-3" style={{height: "50px"}}>
+            <span className="input-group-text"
                   id="inputGroup-sizing-default">비밀번호</span>
             <input type="password" className="form-control"
                    aria-label="Sizing example input"

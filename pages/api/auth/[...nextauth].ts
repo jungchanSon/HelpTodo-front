@@ -5,10 +5,13 @@ import axios from "axios";
 import {Simulate} from "react-dom/test-utils";
 import Credentials from "next-auth/providers/credentials";
 import userStore from "../../../store/user";
+import {generateSecret} from "jose";
+import {options} from "preact";
 
 var username = "11";
 export default NextAuth({
   // 로그인 인증 방식 설정하기
+  secret: process.env.NEXT_PUBLIC_SECRET,
   providers: [
     CredentialsProvider({
       id: "id-password-credential",
@@ -47,11 +50,15 @@ export default NextAuth({
     signIn: '/login',
   },
   callbacks: {
+    // @ts-ignore
     async jwt(token, user, account, profile, isNewUser) {
       console.log(token.user)
       user = token.user
       return token
     },
+
+
+    // @ts-ignore
     async session(session, token, user) {
       console.log("session", session)
       session.session.user.name = session.token.token.user.name

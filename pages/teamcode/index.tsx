@@ -5,17 +5,18 @@ import axios from "axios";
 import Router from "next/router";
 // @ts-ignore
 import TeamList from "/components/TeamCode/TeamList";
+import userStore from "../../store/user";
 
-const teamcodePage = () => {
-
-  const {data: session} = useSession();
+const TeamcodePage = () => {
+  const {userId, userName, setUserName, setUserId} = userStore();
 
 
   // /todolist/all
   const submitCreateTeam = (e) => {
     e.preventDefault()
 
-    const userId = session.token.token.user.id
+    // @ts-ignore
+    const userId = userId
     const teamName = e.target.teamName.value;
     const teamPW = e.target.teamPw.value;
 
@@ -109,4 +110,4 @@ const SubmitCode = styled.input`
 
 `
 
-export default teamcodePage
+export default TeamcodePage

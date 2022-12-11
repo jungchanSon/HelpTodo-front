@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {useSession} from "next-auth/react";
 import userStore from "../store/user";
 
-const index = () => {
+const Index = () => {
   const {data: session} = useSession();
   const {userName, setUserName, userId, setUserId} = userStore()
 
@@ -48,4 +48,4 @@ const H1 = styled.h1`
 const H2 = styled.h2`
     margin-left: 2vw;
 `
-export default index;
+export default Index;
