@@ -4,7 +4,6 @@ import Link from "next/link";
 import {useEffect, useState} from "react";
 import userStore from "/store/user"
 import { useSession, signIn, signOut } from "next-auth/react"
-import {redirect} from "next/navigation";
 import Router from "next/router";
 
 const loginPage= () => {
