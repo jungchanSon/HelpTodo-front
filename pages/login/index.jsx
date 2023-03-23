@@ -6,10 +6,23 @@ import userStore from "/store/user"
 import Router from "next/router";
 import axios from "axios";
 
-const loginPage= () => {
+const LoginPage= () => {
   const {userId, userName, setUserName, setUserId} = userStore();
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
+
+
+  useEffect(() => {
+    const reqData = {
+      id: "jung",
+      pw: "chan"
+    }
+
+    axios.post(process.env.LOGIN+"", null, {params : reqData}).then((res)=> {
+      console.log(res)
+    })
+  }, [])
+
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -27,36 +40,14 @@ const loginPage= () => {
 
     console.log(id, pw)
 
-    const response = await signIn("id-password-credential", {
-      id: id,
-      password: pw,
-      redirect: false,
-      callbackUrl: "http://localhost:3000/"
-    });
-
-    const res = axios.post("")
-
-    if(response.ok){
-
-      await setUserId(id)
-
-      await console.log("id", userId)
-
-      Router.push('/')
+    const reqData = {
+      id: "jung",
+      pw: "chan"
     }
+
+
   }
-  if (session) {
-    if( userName <= 0){
-      setUserName(session.session.user.name)
-      console.log(session)
-      console.log("session.token.token.user.id", session.token.token.user.id)
-    }
-    return (
-        <>
-          <h2>{userName}님 이미 로그인하셨습니다.</h2>
-        </>
-    )
-  } else{
+
   return(
       <Div>
         <FormLogin className={"loginForm"} onSubmit={handleLoginSubmit}>
@@ -102,7 +93,7 @@ const loginPage= () => {
 
 
 
-  )}
+  )
 };
 const Div = styled.div`
   
@@ -133,4 +124,4 @@ const Layout = styled.div`
   justify-content: space-around;
   margin: 3vh 0;
 `
-export default loginPage;
+export default LoginPage;

@@ -5,59 +5,11 @@ import userStore from "/store/user";
 import Image from "next/image";
 import logo from "/public/logo.jpg"
 import Link from "next/link";
-import {signIn, signOut,useSession} from "next-auth/react";
+
 
 export default function Navbar() {
-  const {data: session} = useSession();
   const {userName, setUserName} = userStore()
 
-  if(session){
-    console.log(userName)
-    return(
-        <div>
-          <nav class="navbar sticky-top" style={{backgroundColor: "#e3f2fd"}}>
-
-
-            <LinkLayout>
-              <button type="button"
-                      className="mx-3 btn btn-outline-primary">홈
-              </button>
-              <Link href="/teamlist">
-                <button type="button"
-                        className="mx-3 btn btn-outline-primary">팀 목록
-                </button>
-              </Link>
-              <Link className={" btn-outline-primary"} href="/teamcode">
-                <button type="button"
-                        className="mx-3 btn btn-outline-primary">팀 생성&가입
-                </button>
-              </Link>
-            </LinkLayout>
-
-            <LoginLayout>
-
-              <span onClick={() => {signOut()}} className={"px-4 hover:bg-gray-100 text-lg font-bold" }>
-
-
-                <button type="button"
-                      className="btn btn-outline-danger">{userName} (로그아웃)</button>
-              </span>
-            </LoginLayout>
-
-          </nav>
-
-            <Nav>
-              <Link href="/">
-                <Image src={logo} alt={"로고"}/>
-              </Link>
-
-              <RightLayout>
-
-              </RightLayout>
-            </Nav>
-        </div>
-    )
-  }else
   return (
       <div>
         <nav class="navbar sticky-top" style={{backgroundColor: "#e3f2fd"}}>

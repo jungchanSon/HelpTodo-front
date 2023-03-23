@@ -1,16 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
-import {useSession} from "next-auth/react";
 import userStore from "../store/user";
 import {Accordion} from "react-bootstrap";
 import leader from "../public/aaa.jpg"
 import Image from "next/image";
 import inputteam from "../public/input.png"
+import axios from "axios";
 const Index = () => {
-  const {data: session} = useSession();
   const {userName, setUserName, userId, setUserId} = userStore()
 
   console.log("userStore", userName, userId)
+  console.log(">>>>>>1 " , process.env.NEXT_PUBLIC_LOGIN)
+  console.log(">>>>>>2 " , process.env.LOGIN+"")
+  console.log(">>>>>> " , process.env.NEXT_PUBLIC_LOCALURL_BACK)
+  console.log(">>>>>> " , process.env.NEXT_PUBLIC_LOCALURL_BACK+"")
+  useEffect(()=>{
+      const reqData = {
+        id: "jung",
+        pw: "chan"
+      }
+      axios.post(process.env.LOGIN+"", null, {params : reqData}).then((res)=> {
+        console.log(res)
+      })
+  }, [])
 
   return (
     <div>
