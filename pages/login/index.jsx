@@ -3,15 +3,13 @@ import styled from "styled-components";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import userStore from "/store/user"
-import { useSession, signIn, signOut } from "next-auth/react"
 import Router from "next/router";
+import axios from "axios";
 
 const loginPage= () => {
-  const {data: session} = useSession();
   const {userId, userName, setUserName, setUserId} = userStore();
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
-
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -22,10 +20,11 @@ const loginPage= () => {
       }
   }
 
-  const handleSubmit = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault()
     const id = e.target.id.value;
     const pw = e.target.pw.value;
+
     console.log(id, pw)
 
     const response = await signIn("id-password-credential", {
@@ -34,6 +33,8 @@ const loginPage= () => {
       redirect: false,
       callbackUrl: "http://localhost:3000/"
     });
+
+    const res = axios.post("")
 
     if(response.ok){
 
@@ -58,7 +59,7 @@ const loginPage= () => {
   } else{
   return(
       <Div>
-        <FormLogin className={"loginForm"} onSubmit={handleSubmit}>
+        <FormLogin className={"loginForm"} onSubmit={handleLoginSubmit}>
 
           <div class="input-group mb-4" style={{height: "50px"}}>
             <span class="input-group-text"
