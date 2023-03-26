@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import {ThemeProvider} from "styled-components";
 import defaultTheme from "../styles/Themes/theme";
-
+import {CookiesProvider} from "react-cookie";
 
 import 'bootstrap/dist/css/bootstrap.css';
 function MyApp({
@@ -14,9 +14,11 @@ function MyApp({
   return (
 
         <ThemeProvider theme={defaultTheme}>
-          <Header />
-          <Component {...pageProps} />
-          <Footer></Footer>
+          <CookiesProvider>
+            <Header />
+            <Component {...pageProps} />
+            <Footer></Footer>
+          </CookiesProvider>
         </ThemeProvider>
 
   )

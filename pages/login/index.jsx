@@ -5,24 +5,13 @@ import {useEffect, useState} from "react";
 import userStore from "/store/user"
 import Router from "next/router";
 import axios from "axios";
+import {useCookies} from "react-cookie";
 
 const LoginPage= () => {
-  const {userId, userName, setUserName, setUserId} = userStore();
+  const {userName, setUserName} = userStore();
+  const [cookie, setCookie, removeCookie] = useCookies(['id']);
   const [id, setId] = useState("")
   const [pw, setPw] = useState("")
-
-
-  useEffect(() => {
-    const reqData = {
-      id: "jung",
-      pw: "chan"
-    }
-
-    axios.post(process.env.LOGIN+"", null, {params : reqData}).then((res)=> {
-      console.log(res)
-    })
-  }, [])
-
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -35,17 +24,23 @@ const LoginPage= () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
-    const id = e.target.id.value;
-    const pw = e.target.pw.value;
+    const input_id = e.target.id.value;
+    const input_pw = e.target.pw.value;
 
-    console.log(id, pw)
-
-    const reqData = {
-      id: "jung",
-      pw: "chan"
+    const loginData = {
+      id: input_id,
+      pw: input_pw
     }
+    const coo = {
+      Authorization: "Bearer "+ cookie.id
+    }
+    axios.post(process.env.NEXT_PUBLIC_LOGIN,null,{params: loginData}).then((res)=> {
+      setCookie('token', res.data.token)
 
-
+      axios.defaults.headers.common['Authorization'] = cookie.token //or res.data 등...
+      setUserName(res.data.memberName)
+      console.log(userName)
+    })
   }
 
   return(

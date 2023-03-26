@@ -6,8 +6,11 @@ import leader from "../public/aaa.jpg"
 import Image from "next/image";
 import inputteam from "../public/input.png"
 import axios from "axios";
+import { useCookies } from "react-cookie";
+
 const Index = () => {
   const {userName, setUserName, userId, setUserId} = userStore()
+  const [cookie, setCookie, removeCookie] = useCookies(['id']);
 
   console.log("userStore", userName, userId)
   console.log(">>>>>>1 " , process.env.NEXT_PUBLIC_LOGIN)
@@ -17,11 +20,31 @@ const Index = () => {
   useEffect(()=>{
       const reqData = {
         id: "jung",
-        pw: "chan"
+        pw: "chan",
       }
-      axios.post(process.env.LOGIN+"", null, {params : reqData}).then((res)=> {
-        console.log(res)
+
+      axios.post(process.env.NEXT_PUBLIC_LOGIN+"",null, {params: reqData}).then((res)=> {
+        setCookie('id', res.data); //쿠기 저장
+
+        const token = cookie.id;        //쿠키 꺼내기
+
+        axios.defaults.headers.common['Authorization'] = cookie.id //or res.data 등...
+        axios.defaults
+        console.log("token", token)
+      }).then(() => {
+        const qt = {
+          teamName : "testTeam2",
+          memberId : "jung"
+        }
+        const coo = {
+          Authorization: "Bearer "+ cookie.id
+        }
+        axios.post(process.env.NEXT_PUBLIC_CREATE_TEAM+"", null, {params : qt, headers:coo}).then((res)=> {
+          console.log(res.data)
+        })
       })
+
+
   }, [])
 
   return (

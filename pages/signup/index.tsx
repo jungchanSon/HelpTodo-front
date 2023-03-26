@@ -3,9 +3,7 @@ import {NextPage} from "next";
 import styled from "styled-components";
 import axios from "axios";
 import {useState} from "react";
-import {useSession} from "next-auth/react";
 import Router from "next/router";
-import Link from "next/link";
 
 const signupPage = () => {
   //TODO : usestate로 validation 즉각 피드백 주기
@@ -13,7 +11,6 @@ const signupPage = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-  const {data: session} = useSession();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +27,7 @@ const signupPage = () => {
           pw: pw
         }
 
-        axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/members/signup", null, {params: signupData} ).then((res)=>{
+        axios.post(process.env.NEXT_PUBLIC_SIGNUP, null, {params: signupData} ).then((res)=>{
           Router.push("/login")
         })
       } else{ // pw != pw2
@@ -39,22 +36,10 @@ const signupPage = () => {
     }else{  //빈 칸 있음.
       alert("모두 입력해주세요")
     }
-
-
-
-
   }
-
-
   return(
       <div>
         <FormSignUp className={"loginForm"} onSubmit={handleSubmit}>
-
-
-
-
-
-
           <div className="input-group mb-4" style={{height: "50px"}}>
             <span className="input-group-text"
                   id="inputGroup-sizing-default">이름</span>
