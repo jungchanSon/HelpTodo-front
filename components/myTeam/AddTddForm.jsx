@@ -8,19 +8,18 @@ import doingStore from '../../store/doingStore'
 import doneStore from '../../store/doneStore'
 import roomData from '../../store/roomData'
 import { useCookies } from 'react-cookie'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useStore } from 'zustand'
 import { render } from 'react-dom'
 
 const AddTddForm = (props) => {
     const { userId, userName, setUserName, setUserId } = userStore()
     const { todoTableData, setTodoTableData } = todoTableStore()
-    const { doingDatas, setDoingDatas } = doingStore()
-    const { doneDatas, setDoneDatas } = doneStore()
-    const [temp, setTemp] = useState(true)
     const { roomName, roomCreator, roomCreateDate } = roomData()
     const [cookie] = useCookies(['token'])
+    const [importantLevel, setImportantLevel] = useState(5)
 
+    var slideRef = useRef()
     useEffect(() => {
         const reqData = {
             teamName: roomName,
@@ -47,8 +46,9 @@ const AddTddForm = (props) => {
         const addTddData = {
             content: content,
             todoListId: props.todolistId,
-            importance: 0,
+            importance: importantLevel,
         }
+        console.log(importantLevel)
         if (props.title === 'todo') {
             axios
                 .post(process.env.NEXT_PUBLIC_ADD_TDD_CARD + 'todo', null, {
@@ -115,6 +115,19 @@ const AddTddForm = (props) => {
                         name={'todoContent'}
                         className={'mb-3'}
                     />
+                    <SlideInput
+                        type="range"
+                        min={0}
+                        max={5}
+                        step={1}
+                        ref={slideRef}
+                        onInput={() => {
+                            setImportantLevel(slideRef.current.value)
+                        }}
+                    />
+                    <div>중요도 {importantLevel}</div>
+
+                    <br />
                     <Button variant="outline-secondary" type={'submit'}>
                         추가하기
                     </Button>
@@ -128,4 +141,5 @@ const Form = styled.form`
     text-align: center;
 `
 
+const SlideInput = styled.input``
 export default AddTddForm

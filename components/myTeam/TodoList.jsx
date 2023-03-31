@@ -20,7 +20,9 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
     const tddRef = useRef()
 
     const { todoTableData, setTodoTableData } = todoTableStore()
-
+    useEffect(() => {
+        console.log(resTodo)
+    }, [])
     const clickDeleteTodolist = (e) => {
         e.preventDefault()
 

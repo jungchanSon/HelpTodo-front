@@ -15,7 +15,8 @@ const TddCard = ({ ttdData, parent }) => {
 
     useEffect(() => {
         // setDetail(ttdData)
-    }, [todoTableData])
+        console.log(ttdData)
+    }, [])
 
     const clickDeleteTdd = (e) => {
         e.preventDefault()
@@ -62,15 +63,17 @@ const TddCard = ({ ttdData, parent }) => {
         <div>
             <TddDiv>
                 {ttdData ? (
-                    <div className={'card border-dark m-3'} style={{}}>
-                        <div className={'card-header'}> {ttdData.createDate.slice(0, 10)} </div>
+                    <Card className={'card border-dark m-3'} style={{}}>
+                        <CardHead important={ttdData.important} className={'card-header'}>
+                            {ttdData.createDate.slice(0, 10)}
+                        </CardHead>
                         <div className={'card-body text-dark'}>
                             <p className={'card-text'}>{ttdData.content}</p>
                         </div>
                         <button type="button" className="btn btn-danger" onClick={clickDeleteTdd}>
                             삭제
                         </button>
-                    </div>
+                    </Card>
                 ) : null}
             </TddDiv>
         </div>
@@ -79,5 +82,24 @@ const TddCard = ({ ttdData, parent }) => {
 const TddDiv = styled.div`
     width: 100%;
 `
+const Card = styled.div``
 
+const CardHead = styled.div`
+    background: ${(props) => {
+        if (props.important == 0) {
+            return '000000'
+        } else if (props.important == 1) {
+            return '#FFC5D0'
+        } else if (props.important == 2) {
+            return '#FFB9F0'
+        } else if (props.important == 3) {
+            return '#FF92B1'
+        } else if (props.important == 4) {
+            return '#FF5675'
+        } else if (props.important == 5) {
+            return 'red'
+        }
+        ;('red')
+    }};
+`
 export default TddCard
