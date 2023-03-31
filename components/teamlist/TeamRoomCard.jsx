@@ -14,12 +14,12 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
     const userIdData = {
         userId: userId,
     }
-    const clickRoom = async (e) => {
+    const clickRoom = (e) => {
         e.preventDefault()
         if (type === 'mine') {
-            await setRoomName(name)
-            await setRoomCreateDate(cDate)
-            await setRoomCreator(creator)
+            setRoomName(name)
+            setRoomCreateDate(cDate)
+            setRoomCreator(creator)
 
             Router.push('/myteam')
         }

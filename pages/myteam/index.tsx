@@ -10,12 +10,15 @@ import { useEffect, useState } from 'react'
 import userStore from '../../store/userStore'
 import { useCookies } from 'react-cookie'
 import todoStore from '../../store/todoStore'
+import roomList from '../../store/roomList'
+import Router from 'next/router'
 
 const MyteamPage: NextPage = () => {
     const { userId, userName, setUserName, setUserId } = userStore()
     const [tableData, setTableData] = useState([])
     const [cookie] = useCookies(['token'])
     const { roomName, roomCreator, roomCreateDate } = roomData()
+    const { myRooms } = roomList()
 
     const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
         todoTableStore()
@@ -125,6 +128,26 @@ const MyteamPage: NextPage = () => {
     //       <RequestLogin />
     //   )
     // } else
+    const moveToOtherTeam = (teamName) => {
+        const reqData = {
+            teamName: teamName,
+        }
+        axios
+            .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
+                params: reqData,
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
+            })
+            .then((res) => {
+                setTodoTableData(res.data)
+                setTableData(res.data)
+                // setTodoData()
+                // setDoingData()
+                // setDoneData()
+            })
+    }
+
     if (!tableData) {
         return null
     }
@@ -151,6 +174,13 @@ const MyteamPage: NextPage = () => {
                         <hr />
                         <h5>
                             <b>팀 목록</b>
+                            {myRooms
+                                ? myRooms.map((item, key) => (
+                                      <div key={key} onClick={() => moveToOtherTeam(item.name)}>
+                                          {item.name}
+                                      </div>
+                                  ))
+                                : null}
                         </h5>
                         <hr />
                         <h5>
