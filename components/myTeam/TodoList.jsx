@@ -95,7 +95,7 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
     return (
         <div className={'my-4'}>
             <TodolistInfo className={'mx-5'}>
-                <h3>
+                <h3 id={todolistId}>
                     <b>Todolist 이름 : </b> {title}
                 </h3>
                 <h3>

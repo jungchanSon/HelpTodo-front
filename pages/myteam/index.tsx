@@ -6,7 +6,7 @@ import todoTableStore from '../../store/todoTableStore'
 import doingStore from '../../store/doingStore'
 import doneStore from '../../store/doneStore'
 import TodoList from '../../components/myTeam/TodoList'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import userStore from '../../store/userStore'
 import { useCookies } from 'react-cookie'
 import todoStore from '../../store/todoStore'
@@ -22,7 +22,6 @@ const MyteamPage: NextPage = () => {
 
     const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
         todoTableStore()
-
     useEffect(() => {
         const reqData = {
             teamName: roomName,
@@ -147,7 +146,7 @@ const MyteamPage: NextPage = () => {
                 // setDoneData()
             })
     }
-
+    const clickTodoTable = () => {}
     if (!tableData) {
         return null
     }
@@ -186,6 +185,15 @@ const MyteamPage: NextPage = () => {
                         <h5>
                             <b>투두리스트 목록</b>
                         </h5>
+                        {todoTableData
+                            ? todoTableData.map((item, key) => (
+                                  <div>
+                                      <a key={key} onClick={clickTodoTable} href={'#' + item.id}>
+                                          {item.title}
+                                      </a>
+                                  </div>
+                              ))
+                            : null}
                         <hr />
                     </RoomInfo>
                 </Div>
@@ -221,6 +229,7 @@ const MyteamPage: NextPage = () => {
                 {/*  <h1>파일 공유 칸</h1>*/}
                 {/*</Div>*/}
             </GridLayout>
+            <div id={'3'}></div>
         </>
     )
 }
