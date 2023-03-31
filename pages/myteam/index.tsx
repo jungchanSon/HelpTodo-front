@@ -19,11 +19,6 @@ const MyteamPage: NextPage = () => {
 
     const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
         todoTableStore()
-    const { todoData, setTodoData } = todoStore()
-    const { doingData, setDoingData } = doingStore()
-    const { doneData, setDoneData } = doneStore()
-    const {} = doingStore()
-    const {} = doneStore()
 
     useEffect(() => {
         const reqData = {
@@ -145,6 +140,7 @@ const MyteamPage: NextPage = () => {
                         <hr />
                         <h4>
                             <b>팀장</b>
+                            {}
                         </h4>
                         <h5>{roomCreator}</h5>
                         <hr />

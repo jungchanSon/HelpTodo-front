@@ -11,9 +11,6 @@ const TeamListPage = () => {
     let userId = null
 
     useEffect(() => {
-        const userIdData = {
-            token: cookie.token,
-        }
         axios
             .post(process.env.NEXT_PUBLIC_FIND_MY_TEAM, null, {
                 headers: {
@@ -22,7 +19,7 @@ const TeamListPage = () => {
             })
             .then((res) => {
                 setMyRooms(res.data)
-                console.log(res.data)
+                console.log('myroom', res.data)
             })
             .catch((e) => {
                 console.log(e)
@@ -67,7 +64,7 @@ const TeamListPage = () => {
                                       key={key}
                                       name={item.name}
                                       cDate={item.createDate}
-                                      creator={item.creator}
+                                      creator={item.creatorId}
                                       type={'mine'}
                                   />
                               ))
