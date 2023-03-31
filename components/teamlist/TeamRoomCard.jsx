@@ -29,18 +29,17 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
         const teamPW = e.target.teamPw.value
 
         const joinTeamData = {
-            userId: userId,
             teamName: name,
             teamPassword: teamPW,
         }
 
         axios
-            .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/team/join', null, {
+            .post(process.env.NEXT_PUBLIC_JOIN_TEAM, null, {
                 params: joinTeamData,
             })
             .then((res) => {
                 axios
-                    .get(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/team/findMyTeam', {
+                    .get(process.env.NEXT_PUBLIC_FIND_MY_TEAM, {
                         params: userIdData,
                     })
                     .then((res) => {
@@ -51,7 +50,7 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
                     })
 
                 axios
-                    .get(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/team/findOtherTeamList', {
+                    .get(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, {
                         params: userIdData,
                     })
                     .then((res) => {
@@ -64,7 +63,7 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
     }
 
     return (
-        <>
+        <div>
             {type === 'mine' ? (
                 <div
                     className="list-group-item list-group-item-action my-1 py-4"
@@ -108,7 +107,7 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
                     </div>
                 </div>
             ) : null}
-        </>
+        </div>
     )
 }
 

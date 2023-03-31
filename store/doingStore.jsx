@@ -1,11 +1,9 @@
-import create from "zustand";
+import create from 'zustand'
 
-const doingStore = create(set => ({
-  doingDatas: null,
+const doingStore = create((set) => ({
+    doingData: null,
 
-  setDoingDatas: (prop) =>
-      set((state) => ({doingDatas: prop})),
+    setDoingDatas: (prop) => set((state) => ({ doingData: prop })),
+}))
 
-}));
-
-export default doingStore;
+export default doingStore

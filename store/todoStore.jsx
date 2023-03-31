@@ -1,11 +1,9 @@
-import create from "zustand";
+import create from 'zustand'
 
-const todoStore = create(set => ({
-  todoDatas: null,
+const todoStore = create((set) => ({
+    todoData: null,
 
-  setTodoDatas: (prop) =>
-      set((state) => ({todoDatas: prop})),
+    setTodoData: (prop) => set((state) => ({ todoData: prop })),
+}))
 
-}));
-
-export default todoStore;
+export default todoStore

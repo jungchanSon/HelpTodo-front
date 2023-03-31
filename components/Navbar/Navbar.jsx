@@ -4,8 +4,8 @@ import userStore from '/store/userStore'
 import Image from 'next/image'
 import Logo from '/public/logo.jpg'
 import Link from 'next/link'
-import LogoutNav from './LogoutNav'
-import LoginNav from './LoginNav'
+import LoginedNav from './LoginedNav'
+import UnLoginedNav from './UnLoginedNav'
 import NavBarPageButtons from './NavBarPageButtons'
 import { Cookies, useCookies } from 'react-cookie'
 import SignUp from './SignUp'
@@ -21,7 +21,7 @@ const Navbar = () => {
         } else {
             setIsLogin(false)
         }
-    }, [userName, cookie.token])
+    }, [userName, cookie])
 
     return (
         <div>
@@ -30,11 +30,11 @@ const Navbar = () => {
                     <NavBarPageButtons />
                     {isLogin ? (
                         <div>
-                            <LogoutNav />
+                            <LoginedNav />
                         </div>
                     ) : (
                         <div>
-                            <LoginNav />
+                            <UnLoginedNav />
                             <SignUp />
                         </div>
                     )}

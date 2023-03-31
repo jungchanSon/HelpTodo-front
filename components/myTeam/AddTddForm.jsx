@@ -3,18 +3,41 @@ import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import styled from 'styled-components'
 import userStore from '../../store/userStore'
-import todoStore from '../../store/todoStore'
+import todoTableStore from '../../store/todoTableStore'
 import doingStore from '../../store/doingStore'
 import doneStore from '../../store/doneStore'
 import roomData from '../../store/roomData'
+import { useCookies } from 'react-cookie'
+import { useEffect, useState } from 'react'
+import { useStore } from 'zustand'
+import { render } from 'react-dom'
 
 const AddTddForm = (props) => {
     const { userId, userName, setUserName, setUserId } = userStore()
-    const { todoDatas, setTodoDatas } = todoStore()
+    const { todoTableData, setTodoTableData } = todoTableStore()
     const { doingDatas, setDoingDatas } = doingStore()
     const { doneDatas, setDoneDatas } = doneStore()
-
+    const [temp, setTemp] = useState(true)
     const { roomName, roomCreator, roomCreateDate } = roomData()
+    const [cookie] = useCookies(['token'])
+
+    useEffect(() => {
+        const reqData = {
+            teamName: roomName,
+        }
+
+        axios
+            .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
+                params: reqData,
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
+            })
+            .then((res) => {
+                console.log('addTodo', res.data)
+                setTodoTableData(res.data)
+            })
+    }, [])
 
     const submitAddTdd = (e) => {
         e.preventDefault()
@@ -25,39 +48,36 @@ const AddTddForm = (props) => {
             content: content,
             todoListId: props.todolistId,
             importance: 0,
-            memberId: userId,
         }
         if (props.title === 'todo') {
             axios
-                .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/addTDD/' + 'todo', null, {
+                .post(process.env.NEXT_PUBLIC_ADD_TDD_CARD + 'todo', null, {
                     params: addTddData,
+                    headers: {
+                        Authorization: 'Bearer ' + cookie.token,
+                    },
                 })
                 .then((res) => {
-                    const reqData = {
-                        userId: userId,
-                        teamName: roomName,
-                    }
-
-                    axios
-                        .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/all', null, {
-                            params: reqData,
-                        })
-                        .then((res) => {
-                            setTodoDatas(res.data)
-                        })
+                    requestAllTdds()
                 })
         } else if (props.title === 'doing') {
             axios
-                .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/addTDD/' + 'doing', null, {
+                .post(process.env.NEXT_PUBLIC_ADD_TDD_CARD + 'doing', null, {
                     params: addTddData,
+                    headers: {
+                        Authorization: 'Bearer ' + cookie.token,
+                    },
                 })
                 .then((res) => {
                     requestAllTdds()
                 })
         } else if (props.title === 'done') {
             axios
-                .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/addTDD/' + 'done', null, {
+                .post(process.env.NEXT_PUBLIC_ADD_TDD_CARD + 'done', null, {
                     params: addTddData,
+                    headers: {
+                        Authorization: 'Bearer ' + cookie.token,
+                    },
                 })
                 .then((res) => {
                     requestAllTdds()
@@ -66,21 +86,24 @@ const AddTddForm = (props) => {
 
         const requestAllTdds = () => {
             const reqData = {
-                userId: userId,
                 teamName: roomName,
             }
 
             axios
-                .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/all', null, {
+                .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                     params: reqData,
+                    headers: {
+                        Authorization: 'Bearer ' + cookie.token,
+                    },
                 })
                 .then((res) => {
-                    setTodoDatas(res.data)
+                    console.log('addTodo', res.data)
+                    setTodoTableData(res.data)
                 })
         }
     }
     return (
-        <>
+        <div>
             <DropdownButton
                 style={{ display: 'inline-block' }}
                 variant="outline-success"
@@ -97,7 +120,7 @@ const AddTddForm = (props) => {
                     </Button>
                 </Form>
             </DropdownButton>
-        </>
+        </div>
     )
 }
 

@@ -2,62 +2,83 @@ import { NextPage } from 'next'
 import styled from 'styled-components'
 import axios from 'axios'
 import roomData from '../../store/roomData'
-import todoStore from '../../store/todoStore'
+import todoTableStore from '../../store/todoTableStore'
 import doingStore from '../../store/doingStore'
 import doneStore from '../../store/doneStore'
 import TodoList from '../../components/myTeam/TodoList'
-import LeftMenu from '../../components/myTeam/LeftMenu'
-import Router from 'next/router'
 import { useEffect, useState } from 'react'
-import { LeftRightDialogHeader } from 'next/dist/client/components/react-dev-overlay/internal/components/LeftRightDialogHeader'
 import userStore from '../../store/userStore'
+import { useCookies } from 'react-cookie'
+import todoStore from '../../store/todoStore'
 
 const MyteamPage: NextPage = () => {
     const { userId, userName, setUserName, setUserId } = userStore()
-    const [tddData, setTddData] = useState()
+    const [tableData, setTableData] = useState([])
+    const [cookie] = useCookies(['token'])
     const { roomName, roomCreator, roomCreateDate } = roomData()
 
-    const { todoDatas, setTodoDatas } = todoStore()
-    const { doingDatas, setDoingDatas } = doingStore()
-    const { doneDatas, setDoneDatas } = doneStore()
+    const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
+        todoTableStore()
+    const { todoData, setTodoData } = todoStore()
+    const { doingData, setDoingData } = doingStore()
+    const { doneData, setDoneData } = doneStore()
     const {} = doingStore()
     const {} = doneStore()
 
     useEffect(() => {
         const reqData = {
-            userId: userId,
             teamName: roomName,
         }
-        console.log(reqData)
 
         axios
-            .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/all', null, {
+            .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                 params: reqData,
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
             })
             .then((res) => {
-                console.log('all', res.data)
-
-                setTodoDatas(res.data)
-                setTddData(res.data)
+                setTodoTableData(res.data)
+                setTableData(res.data)
+                // setTodoData()
+                // setDoingData()
+                // setDoneData()
             })
-        console.log('tdds', todoDatas)
-        console.log('tdds', doingDatas)
-        console.log('tdds', doneDatas)
     }, [])
 
-    // useEffect(()=>{
-    //   const reqData = {
-    //     userId: userId,
-    //     teamName: roomName
-    //   }
+    // useEffect(() => {
+    //     const reqData = {
+    //         teamName: roomName,
+    //     }
+    //     if (todoTableData) {
+    //         setTableData(todoTableData)
+    //     }
     //
-    //   axios.post(process.env.NEXT_PUBLIC_LOCALURL_BACK+"/todolist/all", null, {params : reqData}).then((res)=>{
-    //     console.log("re", res.data)
+    //     console.log('tableData', tableData)
+    // }, [todoTableData])
+    // useEffect(() => {
+    //     const reqData = {
+    //         teamName: roomName,
+    //     }
+    //     console.log(reqData)
     //
-    //     setTodoDatas(res.data)
-    //     setTddData(res.data)
-    //   })
-    // }, [todoDatas]);
+    //     axios
+    //         .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
+    //             params: reqData,
+    //             headers: {
+    //                 Authorization: 'Bearer ' + cookie.token,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log('all', res.data)
+    //
+    //             setTodoTableDatas(res.data)
+    //         })
+    //     off_Is_reloadTodoData()
+    //     console.log('tdds', todoTableData)
+    //     console.log('tdds', doingDatas)
+    //     console.log('tdds', doneDatas)
+    // }, [is_reloadTodoTableData])
 
     console.log(roomName)
     console.log(roomCreator)
@@ -68,13 +89,16 @@ const MyteamPage: NextPage = () => {
 
         const createRoomData = {
             title: e.target.inputRoomName.value,
-            userId: userId,
+            to: userId,
             teamName: roomName,
         }
         console.log(createRoomData)
         axios
-            .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/create', null, {
+            .post(process.env.NEXT_PUBLIC_CREATE_TODOLIST, null, {
                 params: createRoomData,
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
             })
             .then((res) => {
                 console.log(res.data)
@@ -86,14 +110,16 @@ const MyteamPage: NextPage = () => {
                 console.log(reqData)
 
                 axios
-                    .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/todolist/all', null, {
+                    .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                         params: reqData,
+                        headers: {
+                            Authorization: 'Bearer ' + cookie.token,
+                        },
                     })
                     .then((res) => {
                         console.log('all', res.data)
 
-                        setTddData(res.data)
-                        setTodoDatas(res.data)
+                        setTodoTableData(res.data)
                     })
             })
     }
@@ -104,8 +130,11 @@ const MyteamPage: NextPage = () => {
     //       <RequestLogin />
     //   )
     // } else
+    if (!tableData) {
+        return null
+    }
     return (
-        <div>
+        <>
             <GridLayout>
                 <Div>
                     <RoomInfo>
@@ -149,24 +178,24 @@ const MyteamPage: NextPage = () => {
                         </form>
                         <hr />
                     </h1>
-                    {todoDatas
-                        ? todoDatas.map((item, key) => (
-                              <TodoList
-                                  key={key}
-                                  todolistId={item.id}
-                                  title={item.title}
-                                  creator={item.creator}
-                                  resTodo={item.resTodos}
-                                  resDoing={item.resDoings}
-                                  resDone={item.resDones}></TodoList>
-                          ))
-                        : console.log('NONE')}
+                    {todoTableData &&
+                        todoTableData.map((item, key) => (
+                            <TodoList
+                                key={key}
+                                todolistId={item.id}
+                                title={item.title}
+                                creator={item.creator}
+                                resTodo={item.resTodos}
+                                resDoing={item.resDoings}
+                                resDone={item.resDones}
+                            />
+                        ))}
                 </Div>
                 {/*<Div>*/}
                 {/*  <h1>파일 공유 칸</h1>*/}
                 {/*</Div>*/}
             </GridLayout>
-        </div>
+        </>
     )
 }
 

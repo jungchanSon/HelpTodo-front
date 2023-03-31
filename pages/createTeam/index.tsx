@@ -1,15 +1,20 @@
 import styled from 'styled-components'
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import Router from 'next/router'
-// @ts-ignore
-import TeamList from '/components/TeamCode/TeamList'
 import userStore from '../../store/userStore'
+import { useCookies } from 'react-cookie'
 
 const TeamcodePage = () => {
-    const { userId, userName, setUserName, setUserId } = userStore()
+    const { userName } = userStore()
+    const [cookie, setCookie, removeCookie] = useCookies(['token'])
 
-    // /todolist/all
+    useEffect(() => {
+        if (!cookie.token || !userName) {
+            Router.push('/login')
+        }
+    }, [userName, cookie])
+
     const submitCreateTeam = (e) => {
         e.preventDefault()
 
@@ -17,18 +22,18 @@ const TeamcodePage = () => {
         const teamPW = e.target.teamPw.value
 
         const createTeamData = {
-            memberId: userId,
+            token: cookie.token,
             teamName: teamName,
             teamPassword: teamPW,
         }
 
         axios
-            .post(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/team/create', null, {
+            .post(process.env.NEXT_PUBLIC_CREATE_TEAM, null, {
                 params: createTeamData,
             })
             .then((res) => {
                 console.log(res.data)
-                if (res.data === 'succ') {
+                if (res.status === 200) {
                     Router.push('/teamlist')
                 }
             })

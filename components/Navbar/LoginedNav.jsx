@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import userStore from '../../store/userStore'
 import { Cookies, useCookies } from 'react-cookie'
 
-const LogoutNav = () => {
-    const { userName, removeUserName, setUserName, userId, setUserId, removeUserId } = userStore()
-    const [cookie, setCookie, removeCookie] = useCookies(['token'])
+const LoginedNav = () => {
+    const { userName, removeUserName } = userStore()
+    const [cookie, , removeCookie] = useCookies(['token'])
 
     const handleLogout = () => {
         removeUserName()
@@ -15,7 +15,7 @@ const LogoutNav = () => {
     return (
         <>
             <button type="button" className="mx-2 btn btn-light">
-                {'asd'} 님
+                {userName} 님
             </button>
             <button type="button" className="btn btn-outline-success" onClick={handleLogout}>
                 로그아웃
@@ -24,4 +24,4 @@ const LogoutNav = () => {
     )
 }
 
-export default LogoutNav
+export default LoginedNav

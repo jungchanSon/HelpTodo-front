@@ -3,30 +3,35 @@ import styled from 'styled-components'
 import axios from 'axios'
 import roomList from '../../store/roomList'
 import TeamRoomCard from '../../components/teamlist/TeamRoomCard'
+import { useCookies } from 'react-cookie'
 
 const TeamListPage = () => {
     const { myRooms, setMyRooms, rooms, setRooms } = roomList()
-
-    let _myRoomList
-    let _roomList
+    const [cookie] = useCookies(['token'])
     let userId = null
 
-    const userIdData = {
-        userId: userId,
-    }
     useEffect(() => {
+        const userIdData = {
+            token: cookie.token,
+        }
         axios
-            .get(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/team/findMyTeam', { params: userIdData })
+            .post(process.env.NEXT_PUBLIC_FIND_MY_TEAM, null, {
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
+            })
             .then((res) => {
                 setMyRooms(res.data)
+                console.log(res.data)
             })
             .catch((e) => {
                 console.log(e)
             })
-
         axios
-            .get(process.env.NEXT_PUBLIC_LOCALURL_BACK + '/team/findOtherTeamList', {
-                params: userIdData,
+            .post(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, null, {
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
             })
             .then((res) => {
                 setRooms(res.data)
@@ -34,7 +39,7 @@ const TeamListPage = () => {
             .catch((e) => {
                 console.log(e)
             })
-    }, [])
+    }, [cookie])
 
     if (rooms) {
         rooms.map((item) => {

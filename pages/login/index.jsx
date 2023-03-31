@@ -27,7 +27,7 @@ const LoginPage = () => {
             setCookie('token', jwt, {
                 expires: new Date(Date.now() + expiredMs),
             })
-            axios.defaults.headers.common['Authorization'] = jwt //or res.data 등...
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt //or res.data 등...
 
             if (res.status == 200) {
                 Router.push('/')
