@@ -183,7 +183,7 @@ const MyteamPage: NextPage = () => {
                         </h5>
                         {todoTableData.map((item, key) => (
                             <div key={key}>
-                                <a key={key} onClick={clickTodoTable} href={'#' + item.id}>
+                                <a key={key} href={'#' + item.id}>
                                     {item.title}
                                 </a>
                             </div>

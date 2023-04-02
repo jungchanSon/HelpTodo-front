@@ -4,11 +4,12 @@ import axios from 'axios'
 import roomData from '../../store/roomData'
 import Router from 'next/router'
 import roomList from '../../store/roomList'
+import { useCookies } from 'react-cookie'
 
 const TeamRoomCard = ({ name, cDate, creator, type }) => {
     const { setRoomName, setRoomCreator, setRoomCreateDate } = roomData()
     const { myRooms, setMyRooms, rooms, setRooms } = roomList()
-
+    const [cookie] = useCookies(['token'])
     let userId = null
 
     const userIdData = {
@@ -32,15 +33,21 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
             teamName: name,
             teamPassword: teamPW,
         }
-
+        console.log(name)
+        console.log(teamPW)
         axios
             .post(process.env.NEXT_PUBLIC_JOIN_TEAM, null, {
                 params: joinTeamData,
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
             })
             .then((res) => {
                 axios
-                    .get(process.env.NEXT_PUBLIC_FIND_MY_TEAM, {
-                        params: userIdData,
+                    .post(process.env.NEXT_PUBLIC_FIND_MY_TEAM, {
+                        headers: {
+                            Authorization: 'Bearer ' + cookie.token,
+                        },
                     })
                     .then((res) => {
                         setMyRooms(res.data)
@@ -50,8 +57,10 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
                     })
 
                 axios
-                    .get(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, {
-                        params: userIdData,
+                    .post(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, {
+                        headers: {
+                            Authorization: 'Bearer ' + cookie.token,
+                        },
                     })
                     .then((res) => {
                         setRooms(res.data)

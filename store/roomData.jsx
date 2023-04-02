@@ -11,6 +11,12 @@ const roomData = create(
             setRoomName: (prop) => set((state) => ({ roomName: prop })),
             setRoomCreateDate: (prop) => set((state) => ({ roomCreateDate: prop })),
             setRoomCreator: (prop) => set((state) => ({ roomCreator: prop })),
+            removeRoomData: () =>
+                set((state) => ({
+                    roomName: null,
+                    roomCreateDate: null,
+                    roomCreator: null,
+                })),
         }),
         { name: 'room' },
     ),

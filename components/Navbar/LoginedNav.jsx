@@ -2,14 +2,20 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import userStore from '../../store/userStore'
 import { Cookies, useCookies } from 'react-cookie'
+import roomData from '../../store/roomData'
+import Router from 'next/router'
 
 const LoginedNav = () => {
     const { userName, removeUserName } = userStore()
+    const { removeRoomData } = roomData()
     const [cookie, , removeCookie] = useCookies(['token'])
 
     const handleLogout = () => {
         removeUserName()
         removeCookie('token')
+        removeRoomData()
+
+        Router.push('/')
     }
 
     return (
