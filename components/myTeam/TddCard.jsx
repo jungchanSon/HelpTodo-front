@@ -49,20 +49,13 @@ const TddCard = ({ ttdData, parent }) => {
             })
     }
 
-    const test = () => {
-        console.log(ttdData)
-        console.log(todoTableData)
-        setTodoTableData(todoTableData.filter((user) => user.id !== id))
-        console.log(todoTableData)
-    }
-
     if (!ttdData) {
         return
     }
     return (
         <div>
             <TddDiv>
-                {ttdData ? (
+                {
                     <Card className={'card border-dark m-3'} style={{}}>
                         <CardHead important={ttdData.important} className={'card-header'}>
                             {ttdData.createDate.slice(0, 10)}
@@ -74,7 +67,7 @@ const TddCard = ({ ttdData, parent }) => {
                             삭제
                         </button>
                     </Card>
-                ) : null}
+                }
             </TddDiv>
         </div>
     )

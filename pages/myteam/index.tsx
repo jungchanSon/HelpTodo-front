@@ -37,9 +37,6 @@ const MyteamPage: NextPage = () => {
             .then((res) => {
                 setTodoTableData(res.data)
                 setTableData(res.data)
-                // setTodoData()
-                // setDoingData()
-                // setDoneData()
             })
     }, [])
 
@@ -146,8 +143,7 @@ const MyteamPage: NextPage = () => {
                 // setDoneData()
             })
     }
-    const clickTodoTable = () => {}
-    if (!tableData) {
+    if (!todoTableData) {
         return null
     }
     return (
@@ -185,15 +181,13 @@ const MyteamPage: NextPage = () => {
                         <h5>
                             <b>투두리스트 목록</b>
                         </h5>
-                        {todoTableData
-                            ? todoTableData.map((item, key) => (
-                                  <div>
-                                      <a key={key} onClick={clickTodoTable} href={'#' + item.id}>
-                                          {item.title}
-                                      </a>
-                                  </div>
-                              ))
-                            : null}
+                        {todoTableData.map((item, key) => (
+                            <div key={key}>
+                                <a key={key} onClick={clickTodoTable} href={'#' + item.id}>
+                                    {item.title}
+                                </a>
+                            </div>
+                        ))}
                         <hr />
                     </RoomInfo>
                 </Div>
@@ -212,18 +206,17 @@ const MyteamPage: NextPage = () => {
                         </form>
                         <hr />
                     </h1>
-                    {todoTableData &&
-                        todoTableData.map((item, key) => (
-                            <TodoList
-                                key={key}
-                                todolistId={item.id}
-                                title={item.title}
-                                creator={item.creator}
-                                resTodo={item.resTodos}
-                                resDoing={item.resDoings}
-                                resDone={item.resDones}
-                            />
-                        ))}
+                    {todoTableData.map((item, key) => (
+                        <TodoList
+                            key={key}
+                            todolistId={item.id}
+                            title={item.title}
+                            creator={item.creator}
+                            resTodo={item.resTodos}
+                            resDoing={item.resDoings}
+                            resDone={item.resDones}
+                        />
+                    ))}
                 </Div>
                 {/*<Div>*/}
                 {/*  <h1>파일 공유 칸</h1>*/}

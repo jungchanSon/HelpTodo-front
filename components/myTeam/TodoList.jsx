@@ -95,12 +95,12 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
     return (
         <div className={'my-4'}>
             <TodolistInfo className={'mx-5'}>
-                <h3 id={todolistId}>
+                <h5 id={todolistId}>
                     <b>Todolist 이름 : </b> {title}
-                </h3>
-                <h3>
+                </h5>
+                <h6>
                     <b>생성한 사람 : </b> {creator}
-                </h3>
+                </h6>
                 <button type="button" className="btn btn-danger mx-3" onClick={clickDeleteTodolist}>
                     투두리스트 삭제
                 </button>
@@ -114,17 +114,15 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                     <H3>
                         TODO <AddTddForm todolistId={todolistId} title={'todo'}></AddTddForm>
                     </H3>
-                    {resTodo
-                        ? resTodo.map((item, key) => (
-                              <div
-                                  key={key}
-                                  id={item.tddId}
-                                  draggable={true}
-                                  onDragStart={(e) => setRefs(e, e.target)}>
-                                  <TddCard ttdData={item} key={key} parent={this}></TddCard>
-                              </div>
-                          ))
-                        : null}
+                    {resTodo.map((item, key) => (
+                        <div
+                            key={key}
+                            id={item.tddId}
+                            draggable={true}
+                            onDragStart={(e) => setRefs(e, e.target)}>
+                            <TddCard ttdData={item} key={key} parent={this}></TddCard>
+                        </div>
+                    ))}
                 </TodoSection>
                 <DoingSection
                     className={'bg-danger bg-gradient p-2 text-dark bg-opacity-10'}
@@ -136,17 +134,15 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                     <H3>
                         DOING <AddTddForm todolistId={todolistId} title={'doing'}></AddTddForm>
                     </H3>
-                    {resDoing
-                        ? resDoing.map((item, key) => (
-                              <div
-                                  key={key}
-                                  id={item.tddId}
-                                  draggable={true}
-                                  onDragStart={(e) => setRefs(e, e.target)}>
-                                  <TddCard ttdData={item}></TddCard>
-                              </div>
-                          ))
-                        : null}
+                    {resDoing.map((item, key) => (
+                        <div
+                            key={key}
+                            id={item.tddId}
+                            draggable={true}
+                            onDragStart={(e) => setRefs(e, e.target)}>
+                            <TddCard ttdData={item}></TddCard>
+                        </div>
+                    ))}
                 </DoingSection>
                 <DoneSection
                     className={'bg-secondary bg-gradient p-2 text-dark bg-opacity-10'}
@@ -158,17 +154,15 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                     <H3>
                         DONE <AddTddForm todolistId={todolistId} title={'done'}></AddTddForm>
                     </H3>
-                    {resDone
-                        ? resDone.map((item, key) => (
-                              <div
-                                  key={key}
-                                  id={item.tddId}
-                                  draggable={true}
-                                  onDragStart={(e) => setRefs(e, e.target)}>
-                                  <TddCard ttdData={item}></TddCard>
-                              </div>
-                          ))
-                        : null}
+                    {resDone.map((item, key) => (
+                        <div
+                            key={key}
+                            id={item.tddId}
+                            draggable={true}
+                            onDragStart={(e) => setRefs(e, e.target)}>
+                            <TddCard ttdData={item}></TddCard>
+                        </div>
+                    ))}
                 </DoneSection>
             </Grid>
         </div>
