@@ -10,21 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Router from 'next/router'
 import userStore from '../store/userStore'
 
-function MyApp({ Component, pageProps: { ...pageProps } }) {
-    let [cookie, setCookie, removeCookie] = useCookies(['token'])
-    const { userName } = userStore()
-
-    useEffect(() => {
-        const currentPage = Component.name
-        const NO_REQUIRED_LOGIN_PAGES = ['Index', 'signupPage', 'LoginPage']
-
-        if (!NO_REQUIRED_LOGIN_PAGES.includes(currentPage)) {
-            if (!cookie || !userName) {
-                Router.push('/login')
-            }
-        }
-    }, [Component])
-
+function MyApp({ Component }) {
     return (
         <ThemeProvider theme={defaultTheme}>
             <CookiesProvider>

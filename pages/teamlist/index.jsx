@@ -4,11 +4,20 @@ import axios from 'axios'
 import roomList from '../../store/roomList'
 import TeamRoomCard from '../../components/teamlist/TeamRoomCard'
 import { useCookies } from 'react-cookie'
+import userStore from '../../store/userStore'
+import Router from 'next/router'
 
 const TeamListPage = () => {
     const { myRooms, setMyRooms, rooms, setRooms } = roomList()
+    const { userName } = userStore()
     const [cookie] = useCookies(['token'])
     let userId = null
+
+    useEffect(() => {
+        if (!cookie.token || !userName) {
+            Router.push('/login')
+        }
+    }, [])
 
     useEffect(() => {
         axios

@@ -27,6 +27,7 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
         e.preventDefault()
 
         const data = {
+            teamName: roomName,
             todoListId: todolistId,
         }
         axios
@@ -65,6 +66,7 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
     const changeCardType = (type) => {
         // e.preventDefault()
         const data = {
+            teamName: roomName,
             tddId: tddRef.current.id,
             tddType: type,
         }

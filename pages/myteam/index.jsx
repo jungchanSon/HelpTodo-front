@@ -12,17 +12,51 @@ import { useCookies } from 'react-cookie'
 import todoStore from '../../store/todoStore'
 import roomList from '../../store/roomList'
 import Router from 'next/router'
+import { EventSourcePolyfill } from 'event-source-polyfill'
 
-const MyteamPage: NextPage = () => {
+const MyteamPage = () => {
     const { userId, userName, setUserName, setUserId } = userStore()
     const [tableData, setTableData] = useState([])
     const [cookie] = useCookies(['token'])
     const { roomName, roomCreator, roomCreateDate } = roomData()
-    const { myRooms } = roomList()
-
     const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
         todoTableStore()
+    const { myRooms } = roomList()
+
     useEffect(() => {
+        if (!cookie.token || !userName) {
+            Router.push('/login')
+        }
+        //----------------------------------------------------------
+        console.log('sse Add')
+        const sseForUpdate = new EventSourcePolyfill('http://localhost:8080/event/addEmitter', {
+            headers: {
+                Authorization: 'Bearer ' + cookie.token,
+                teamName: roomName,
+            },
+        })
+
+        sseForUpdate.addEventListener('updateTodoList', () => {
+            console.log('receive updateTodolist')
+            const reqData = {
+                teamName: roomName,
+            }
+
+            axios
+                .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
+                    params: reqData,
+                    headers: {
+                        Authorization: 'Bearer ' + cookie.token,
+                    },
+                })
+                .then((res) => {
+                    setTodoTableData(res.data)
+                    setTableData(res.data)
+                })
+        })
+        console.log(sseForUpdate)
+        //----------------------------------------------------------
+
         const reqData = {
             teamName: roomName,
         }

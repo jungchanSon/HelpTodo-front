@@ -13,7 +13,7 @@ const TeamcodePage = () => {
         if (!cookie.token || !userName) {
             Router.push('/login')
         }
-    }, [userName, cookie])
+    }, [])
 
     const submitCreateTeam = (e) => {
         e.preventDefault()

@@ -44,6 +44,7 @@ const AddTddForm = (props) => {
         const content = e.target.todoContent.value
 
         const addTddData = {
+            teamName: roomName,
             content: content,
             todoListId: props.todolistId,
             importance: importantLevel,

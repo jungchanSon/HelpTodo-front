@@ -4,8 +4,16 @@ import { Accordion } from 'react-bootstrap'
 import leader from '../public/aaa.jpg'
 import Image from 'next/image'
 import inputteam from '../public/input.png'
+import Sockjs from 'sockjs-client'
+import { Client } from '@stomp/stompjs'
+import { useCookies } from 'react-cookie'
+import axios from 'axios'
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill'
 
 const Index = () => {
+    //--------------------------------------------------------------
+
+    //--------------------------------------------------------------
     return (
         <div>
             <Container>

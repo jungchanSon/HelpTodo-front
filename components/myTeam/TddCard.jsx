@@ -21,6 +21,7 @@ const TddCard = ({ ttdData, parent }) => {
     const clickDeleteTdd = (e) => {
         e.preventDefault()
         const data = {
+            teamName: roomName,
             tddId: ttdData.tddId,
         }
         axios
