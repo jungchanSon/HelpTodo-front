@@ -6,12 +6,13 @@ import Router from 'next/router'
 import roomList from '../../store/roomList'
 import { useCookies } from 'react-cookie'
 
-const TeamRoomCard = ({ name, cDate, creator, type }) => {
+const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
     const { setRoomName, setRoomCreator, setRoomCreateDate } = roomData()
     const { myRooms, setMyRooms, rooms, setRooms } = roomList()
     const [cookie] = useCookies(['token'])
     let userId = null
 
+    console.log('isPassword', isPassword)
     const userIdData = {
         userId: userId,
     }
@@ -99,12 +100,14 @@ const TeamRoomCard = ({ name, cDate, creator, type }) => {
                     <small>팀장 : {creator}</small>
                     <div className="input-group mb-3">
                         <form className="input-group mb-3" onSubmit={enterRoomWithPw}>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="방 비밀번호 입력 없을 경우, 공란으로"
-                                name={'teamPw'}
-                            />
+                            {isPassword ? (
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="방 비밀번호 입력 없을 경우, 공란으로"
+                                    name={'teamPw'}
+                                />
+                            ) : null}
                             <button
                                 className="btn btn-outline-secondary"
                                 type="submit"

@@ -73,7 +73,7 @@ const TeamListPage = () => {
                                       key={key}
                                       name={item.name}
                                       cDate={item.createDate}
-                                      creator={item.creatorId}
+                                      creator={item.creatorName}
                                       type={'mine'}
                                   />
                               ))
@@ -93,7 +93,8 @@ const TeamListPage = () => {
                                       key={key}
                                       name={item.name}
                                       cDate={item.createDate}
-                                      creator={item.creator}
+                                      creator={item.creatorName}
+                                      isPassword={item.hasPassword}
                                       type={'other'}
                                   />
                               ))
