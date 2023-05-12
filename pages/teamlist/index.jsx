@@ -17,7 +17,6 @@ const TeamListPage = () => {
     let userId = null
 
     useEffect(() => {
-        console.log('useE', inputTeamName)
         if (inputTeamName !== '') {
             setTeamList([])
             var tempList = []
@@ -44,20 +43,16 @@ const TeamListPage = () => {
         axios
             .post(process.env.NEXT_PUBLIC_FIND_MY_TEAM, null, {
                 headers: {
-                    Authorization: 'Bearer ' + cookie.token,
+                    'Authorization': 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 setMyRooms(res.data)
-                console.log('myroom', res.data)
-            })
-            .catch((e) => {
-                console.log(e)
             })
         axios
             .post(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, null, {
                 headers: {
-                    Authorization: 'Bearer ' + cookie.token,
+                    'Authorization': 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
@@ -72,14 +67,9 @@ const TeamListPage = () => {
     const handleSearchTeam = (e) => {
         e.preventDefault()
         setInputTeamName(inputTeamNameRef.current.value)
-        console.log(inputTeamNameRef.current.value)
     }
 
-    if (rooms) {
-        rooms.map((item) => {
-            console.log('item', item)
-        })
-    }
+
     // if(!session){
     //   return(
     //     <RequestLogin />

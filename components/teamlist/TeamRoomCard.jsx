@@ -12,13 +12,12 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
     const [cookie] = useCookies(['token'])
     let userId = null
 
-    console.log('isPassword', isPassword)
     const userIdData = {
         userId: userId,
     }
     const clickRoom = (e) => {
         e.preventDefault()
-        if (type === 'mine') {
+        if (type === 'mine' && e.target.tagName != 'BUTTON') {
             setRoomName(name)
             setRoomCreateDate(cDate)
             setRoomCreator(creator)
@@ -39,21 +38,18 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
             teamName: name,
             teamPassword: teamPW,
         }
-        console.log(name)
-        console.log(teamPW)
-        console.log(cookie.token)
         axios
             .post(process.env.NEXT_PUBLIC_JOIN_TEAM, null, {
                 params: joinTeamData,
                 headers: {
-                    Authorization: 'Bearer ' + cookie.token,
+                    'Authorization': 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 axios
                     .post(process.env.NEXT_PUBLIC_FIND_MY_TEAM, null, {
                         headers: {
-                            Authorization: 'Bearer ' + cookie.token,
+                            'Authorization': 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
@@ -64,9 +60,9 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
                     })
 
                 axios
-                    .post(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, {
+                    .post(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, null, {
                         headers: {
-                            Authorization: 'Bearer ' + cookie.token,
+                            'Authorization': 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
@@ -77,7 +73,26 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
                     })
             })
     }
+    const handleExitTeam = (e) => {
+        e.preventDefault()
 
+        const data = {
+            teamName: name,
+        }
+        axios
+            .post(process.env.NEXT_PUBLIC_EXIT_TEAM, null, {
+                headers: {
+                    'Authorization': 'Bearer ' + cookie.token,
+                },
+                params: data,
+            })
+            .then((res) => {
+                console.log('탈퇴!')
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+    }
     return (
         <div>
             {type === 'mine' ? (
@@ -85,12 +100,19 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
                     className='list-group-item list-group-item-action my-1 py-4'
                     aria-current='true'
                     onClick={clickRoom}>
-                    <div className='d-flex w-100 justify-content-between'>
-                        <h5 className='mb-1'>팀 이름 : {name}</h5>
-                        <small> 생성일 : {cDate.slice(0, 10)}</small>
+                    <div className={'row'}>
+                        <div className={'col'}>
+                            <h5 className='mb-3'>팀 이름 : {name}</h5>
+                            <small>팀장 : {creator}</small>
+                        </div>
+                        {/*<div className={'col text-center'}>*/}
+                        {/*    <small> 생성일 : {cDate.slice(0, 10)}</small>*/}
+                        {/*    <button className={'mt-3 btn btn-danger'}*/}
+                        {/*            onClick={handleExitTeam}>팀 나가기*/}
+                        {/*    </button>*/}
+                        {/*</div>*/}
                     </div>
-                    <p className='mb-3'></p>
-                    <small>팀장 : {creator}</small>
+
                     <div className='input-group'></div>
                 </div>
             ) : null}

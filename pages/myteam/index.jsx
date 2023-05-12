@@ -22,31 +22,29 @@ const MyteamPage = () => {
     const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
         todoTableStore()
     const { myRooms } = roomList()
+    const [myMembers, setMyMembers] = useState([])
 
     useEffect(() => {
         if (!cookie.token || !userName) {
             Router.push('/login')
         }
         //----------------------------------------------------------
-        console.log('sse Add')
-        const sseForUpdate = new EventSourcePolyfill('http://localhost:8080/event/addEmitter', {
+        const sseForUpdate = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_LOCALURL_BACK}/event/addEmitter?teamName=${roomName}`, {
             headers: {
-                Authorization: 'Bearer ' + cookie.token,
-                teamName: roomName,
+                'Authorization': `Bearer ${cookie.token}`,
             },
         })
 
         sseForUpdate.addEventListener('updateTodoList', () => {
-            console.log('receive updateTodolist')
             const reqData = {
-                teamName: roomName,
+                'teamName': roomName,
             }
 
             axios
                 .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                     params: reqData,
                     headers: {
-                        Authorization: 'Bearer ' + cookie.token,
+                        'Authorization': `Bearer ${cookie.token}`,
                     },
                 })
                 .then((res) => {
@@ -54,7 +52,6 @@ const MyteamPage = () => {
                     setTableData(res.data)
                 })
         })
-        console.log(sseForUpdate)
         //----------------------------------------------------------
 
         const reqData = {
@@ -65,13 +62,23 @@ const MyteamPage = () => {
             .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                 params: reqData,
                 headers: {
-                    Authorization: 'Bearer ' + cookie.token,
+                    'Authorization': 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 setTodoTableData(res.data)
                 setTableData(res.data)
             })
+
+        axios.post(process.env.NEXT_PUBLIC_FIND_MY_MEMBERS, null, {
+            params: reqData,
+            headers: {
+                'Authorization': 'Bearer ' + cookie.token,
+            },
+        }).then((res) => {
+            setMyMembers(res.data)
+        })
+
     }, [])
 
     // useEffect(() => {
@@ -108,9 +115,6 @@ const MyteamPage = () => {
     //     console.log('tdds', doneDatas)
     // }, [is_reloadTodoTableData])
 
-    console.log(roomName)
-    console.log(roomCreator)
-    console.log(roomCreateDate)
 
     const clickAddTodoList = (e) => {
         e.preventDefault()
@@ -120,32 +124,28 @@ const MyteamPage = () => {
             to: userId,
             teamName: roomName,
         }
-        console.log(createRoomData)
         axios
             .post(process.env.NEXT_PUBLIC_CREATE_TODOLIST, null, {
                 params: createRoomData,
                 headers: {
-                    Authorization: 'Bearer ' + cookie.token,
+                    'Authorization': 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
-                console.log(res.data)
 
                 const reqData = {
                     userId: userId,
                     teamName: roomName,
                 }
-                console.log(reqData)
 
                 axios
                     .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                         params: reqData,
                         headers: {
-                            Authorization: 'Bearer ' + cookie.token,
+                            'Authorization': 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
-                        console.log('all', res.data)
 
                         setTodoTableData(res.data)
                     })
@@ -166,7 +166,7 @@ const MyteamPage = () => {
             .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                 params: reqData,
                 headers: {
-                    Authorization: 'Bearer ' + cookie.token,
+                    'Authorization': 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
@@ -201,14 +201,24 @@ const MyteamPage = () => {
                         </h4>
                         <h5>{roomCreateDate ? roomCreateDate.slice(0, 10) : null}</h5>
                         <hr />
+                        <h4>
+                            <b>팀원들</b>
+                            {
+                                myMembers ? myMembers.map((item, key) => (
+                                        <div key={key}>
+                                            {item}
+                                        </div>
+                                    ))
+                                    : null}
+                        </h4>
                         <h5>
                             <b>팀 목록</b>
                             {myRooms
                                 ? myRooms.map((item, key) => (
-                                      <div key={key} onClick={() => moveToOtherTeam(item.name)}>
-                                          {item.name}
-                                      </div>
-                                  ))
+                                    <div key={key} onClick={() => moveToOtherTeam(item.name)}>
+                                        {item.name}
+                                    </div>
+                                ))
                                 : null}
                         </h5>
                         <hr />
@@ -229,12 +239,12 @@ const MyteamPage = () => {
                     <h1 style={{ textAlign: 'center' }} className={'py-3'}>
                         <form onSubmit={clickAddTodoList}>
                             <input
-                                type="text"
+                                type='text'
                                 name={'inputRoomName'}
                                 className={'mx-3'}
-                                placeholder="투두리스트 이름"
+                                placeholder='투두리스트 이름'
                             />
-                            <button type="submit" className="btn btn-outline-success mx-3">
+                            <button type='submit' className='btn btn-outline-success mx-3'>
                                 투두리스트 추가
                             </button>
                         </form>
@@ -262,17 +272,17 @@ const MyteamPage = () => {
 }
 
 const GridLayout = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 6fr;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
 
-    border: 1px solid black;
-    margin: 3em 0;
+  border: 1px solid black;
+  margin: 3em 0;
 `
 const Div = styled.div`
-    border: 1px solid black;
+  border: 1px solid black;
 `
 const RoomInfo = styled.div`
-    padding: 5px;
-    text-align: center;
+  padding: 5px;
+  text-align: center;
 `
 export default MyteamPage
