@@ -1,23 +1,22 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import '../styles/globals.css'
-import Header from '../components/header/Header'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
 import { ThemeProvider } from 'styled-components'
 import defaultTheme from '../styles/Themes/theme'
-import { CookiesProvider } from 'react-cookie'
+import { CookiesProvider, useCookies } from 'react-cookie'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import GlobalBackground from '../styles/globalBackground'
+import Router from 'next/router'
+import userStore from '../store/userStore'
 
 function MyApp({ Component }) {
-
-
     return (
         <ThemeProvider theme={defaultTheme}>
             <CookiesProvider>
-                <GlobalBackground />
                 <Header />
                 <Component />
-                {/*<Footer></Footer>*/}
+                <Footer></Footer>
             </CookiesProvider>
         </ThemeProvider>
     )

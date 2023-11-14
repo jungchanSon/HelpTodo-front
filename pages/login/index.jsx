@@ -1,14 +1,41 @@
+import styled from 'styled-components'
 import Link from 'next/link'
-import userStore from '../../store/userStore'
-import { useCookies } from 'react-cookie'
-import submitLoginForm from '../../components/api/MemberAPI'
+import userStore from '/store/userStore'
 import axios from 'axios'
+import { useCookies } from 'react-cookie'
 import Router from 'next/router'
+import submitLoginForm from '../../components/api/MemberAPI'
 
 const LoginPage = () => {
     const { setUserName } = userStore()
-    const [, setCookie] = useCookies(['token'])
 
+    const [, setCookie] = useCookies(['token'])
+    // const handleLoginSubmit = async (e) => {
+    //     e.preventDefault()
+    //     const input_id = e.target.id.value
+    //     const input_pw = e.target.pw.value
+    //
+    //     const loginData = {
+    //         id: input_id,
+    //         pw: input_pw,
+    //     }
+    //
+    //     axios.post(process.env.NEXT_PUBLIC_LOGIN, null, { params: loginData }).then((res) => {
+    //         const jwt = res.data.token
+    //         const expiredMs = res.data.expiredMs
+    //         const memberName = res.data.memberName
+    //
+    //         setCookie('token', jwt, {
+    //             expires: new Date(Date.now() + expiredMs),
+    //         })
+    //         axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt //or res.data 등...
+    //
+    //         if (res.status == 200) {
+    //             Router.push('/')
+    //         }
+    //         setUserName(memberName)
+    //     })
+    // }
     const handleLoginSubmit = (e) => {
         const { status, jwt, expiredMs, memberName } = submitLoginForm(e)
 
@@ -24,75 +51,72 @@ const LoginPage = () => {
             Router.push('/')
         }
     }
+
     return (
-        <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
-            <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-                <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-                    로그인
-                </h2>
-            </div>
+        <Div>
+            <FormLogin className={'loginForm'} onSubmit={handleLoginSubmit}>
+                <div className='input-group mb-4' style={{ height: '50px' }}>
+                    <span className='input-group-text' id='inputGroup-sizing-default'>
+                        아이디
+                    </span>
+                    <input
+                        type='text'
+                        className='form-control'
+                        aria-label='Sizing example input'
+                        aria-describedby='inputGroup-sizing-default'
+                        placeholder={'ID'}
+                        name={'id'}
+                        style={{ fontSize: '1.5em' }}
+                    />
+                </div>
 
-            <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-                <form className='space-y-6' method='POST' onSubmit={handleLoginSubmit}>
-                    <div>
-                        <label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
-                            Email address
-                        </label>
-                        <div className='mt-2'>
-                            <input
-                                id='email'
-                                name='email'
-                                type='email'
-                                autoComplete='email'
-                                required
-                                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className='flex items-center justify-between'>
-                            <label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
-                                Password
-                            </label>
-                            <div className='text-sm'>
-                                <a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
-                                    비밀번호를 잃어버리셨나요?
-                                </a>
-                            </div>
-                        </div>
-                        <div className='mt-2'>
-                            <input
-                                id='password'
-                                name='password'
-                                type='password'
-                                autoComplete='current-password'
-                                required
-                                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <button
-                            type='submit'
-                            className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-                        >
-                            로그인
+                <div className='input-group mb-3' style={{ height: '50px' }}>
+                    <span className='input-group-text' id='inputGroup-sizing-default'>
+                        비밀번호
+                    </span>
+                    <input
+                        type='password'
+                        className='form-control'
+                        aria-label='Sizing example input'
+                        aria-describedby='inputGroup-sizing-default'
+                        placeholder={'PW'}
+                        name={'pw'}
+                        style={{ fontSize: '1.5em' }}
+                    />
+                </div>
+                <Layout>
+                    <button type='submit' className='btn btn-outline-dark'>
+                        로그인
+                    </button>
+                    <Link href={'/signup'}>
+                        <button type='button' className='btn btn-outline-secondary'>
+                            회원가입
                         </button>
-                    </div>
-                </form>
-
-                <p className='mt-10 text-center text-sm text-gray-500'>
-                    아직 회원이 아니신가요?{' '}
-                    <Link href='/signup' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
-                        간편 회원가입.
                     </Link>
-                </p>
-            </div>
-        </div>
-
+                </Layout>
+            </FormLogin>
+        </Div>
     )
 }
+const Div = styled.div``
+const FormLogin = styled.form`
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 10vh 30vw;
+  padding: 3vh;
+`
+const InputId = styled.input``
 
+const InputPw = styled.input``
+
+const SubmitLogin = styled.input``
+const Psignup = styled.p`
+  border: 1px solid black;
+`
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 3vh 0;
+`
 export default LoginPage
