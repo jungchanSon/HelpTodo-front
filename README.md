@@ -1,3 +1,17 @@
+https://tailwindcomponents.com/components/cards
+https://tailwindcomponents.com/component/task-manager
+https://tailwindcomponents.com/component/card-ai-power-analytics
+https://tailwindcomponents.com/component/card-ai-power-analytics
+https://www.creative-tim.com/product/soft-ui-dashboard-tailwind?ref=tailwindcomponents
+https://demos.creative-tim.com/soft-ui-dashboard-tailwind/pages/dashboard.html?_ga=2.47104741.358438972.1699961446-1567801043.1699961446
+https://www.tailwind-kit.com/components/list
+https://tailwindcss.com/docs/width
+https://tailwindui.com/components?ref=sidebar
+https://tailwindui.com/components
+https://tailwindui.com/components/application-ui/headings/page-headings
+https://headlessui.com/react/listbox
+https://goddino.tistory.com/163
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped
 with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
