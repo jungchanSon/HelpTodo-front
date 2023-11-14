@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import userStore from '/store/userStore'
-import Image from 'next/image'
-import Logo from '/public/logo.jpg'
-import Link from 'next/link'
 import LoginedNav from './LoginedNav'
 import UnLoginedNav from './UnLoginedNav'
 import NavBarPageButtons from './NavBarPageButtons'
@@ -25,8 +22,9 @@ const Navbar = () => {
 
     return (
         <div>
-            <nav className="navbar sticky-top" style={{ backgroundColor: '#e3f2fd' }}>
-                <div className="container-fluid">
+            <nav className='navbar sticky-top'>
+                {/*<nav className='navbar sticky-top' style={{ backgroundColor: '#e3f2fd' }}>*/}
+                <div className='container-fluid'>
                     <NavBarPageButtons />
                     {isLogin ? (
                         <div>
@@ -40,30 +38,30 @@ const Navbar = () => {
                     )}
                 </div>
             </nav>
-            <Nav>
-                <Link href="/">
-                    <Image src={Logo} alt={'로고'} />
-                </Link>
-                <h3 className={'my-auto'}>팀프로젝트 계획을 도와드립니다 !</h3>
-                <Empty></Empty>
-            </Nav>
+            {/*<Nav>*/}
+            {/*    <Link href="/">*/}
+            {/*        <Image src={Logo} alt={'로고'} />*/}
+            {/*    </Link>*/}
+            {/*    <h3 className={'my-auto'}>팀프로젝트 계획을 도와드립니다 !</h3>*/}
+            {/*    <Empty></Empty>*/}
+            {/*</Nav>*/}
         </div>
     )
 }
 
 const Nav = styled.nav`
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    padding: 0 5%;
+  padding: 0 5%;
 
-    border-bottom: 2px solid darkslategray;
+  border-bottom: 2px solid darkslategray;
 `
 const Empty = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `
 
 export default Navbar
