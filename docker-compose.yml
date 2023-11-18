@@ -1,13 +1,15 @@
+version: '3'
+
 services:
   next:
     container_name: "next"
     restart: "on-failure"
     build:
-      context: ./next
+      context: .
       dockerfile: Dockerfile
     volumes:
       - "./next:/usr/src/next"
       - "/usr/src/next/node_modules"
       - "/usr/src/next/.next"
     ports:
-      - "3333:3333"
+      - "3000:3000"
