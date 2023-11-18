@@ -4,26 +4,51 @@ import { useCookies } from 'react-cookie'
 import submitLoginForm from '../../components/api/MemberAPI'
 import axios from 'axios'
 import Router from 'next/router'
+import { cookies } from 'next/headers'
 
 const LoginPage = () => {
     const { setUserName } = userStore()
-    const [, setCookie] = useCookies(['token'])
+    const [cookie, setCookie] = useCookies(['token'])
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault()
+        const input_id = e.target.id.value
+        const input_pw = e.target.pw.value
 
-    const handleLoginSubmit = (e) => {
-        const { status, jwt, expiredMs, memberName } = submitLoginForm(e)
-
-        setCookie('token', jwt, {
-            expires: new Date(Date.now() + expiredMs),
-        })
-
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt //or res.data 등...
-
-        setUserName(memberName)
-
-        if (status == 200) {
-            Router.push('/')
+        const loginData = {
+            id: input_id,
+            pw: input_pw,
         }
+        axios.post(process.env.NEXT_PUBLIC_LOGIN, null, { params: loginData }).then((res) => {
+            const jwt = res.data.token
+            const expiredMs = res.data.expiredMs
+            const memberName = res.data.memberName
+
+            setCookie('token', jwt, {
+                expires: new Date(Date.now() + expiredMs),
+            })
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt //or res.data 등...
+
+            if (res.status == 200) {
+                Router.push('/')
+            }
+            setUserName(memberName)
+        })
     }
+    // const handleLoginSubmit = (e) => {
+    //     const { status, jwt, expiredMs, memberName } = submitLoginForm(e)
+    //
+    //     setCookie('token', jwt, {
+    //         expires: new Date(Date.now() + expiredMs),
+    //     })
+    //
+    //     axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt //or res.data 등...
+    //
+    //     setUserName(memberName)
+    //
+    //     if (status == 200) {
+    //         Router.push('/')
+    //     }
+    // }
     return (
         <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
             <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
@@ -35,15 +60,17 @@ const LoginPage = () => {
             <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
                 <form className='space-y-6' method='POST' onSubmit={handleLoginSubmit}>
                     <div>
-                        <label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
-                            Email address
+                        <label
+                            htmlFor='email'
+                            className='block text-sm font-medium leading-6 text-gray-900'
+                        >
+                            id
                         </label>
                         <div className='mt-2'>
                             <input
-                                id='email'
-                                name='email'
-                                type='email'
-                                autoComplete='email'
+                                id='id'
+                                name='id'
+                                type='text'
                                 required
                                 className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                             />
@@ -52,21 +79,26 @@ const LoginPage = () => {
 
                     <div>
                         <div className='flex items-center justify-between'>
-                            <label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
+                            <label
+                                htmlFor='password'
+                                className='block text-sm font-medium leading-6 text-gray-900'
+                            >
                                 Password
                             </label>
-                            <div className='text-sm'>
-                                <a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
-                                    비밀번호를 잃어버리셨나요?
-                                </a>
-                            </div>
+                            {/*<div className="text-sm">*/}
+                            {/*    <a*/}
+                            {/*        href="#"*/}
+                            {/*        className="font-semibold text-indigo-600 hover:text-indigo-500"*/}
+                            {/*    >*/}
+                            {/*        비밀번호를 잃어버리셨나요?*/}
+                            {/*    </a>*/}
+                            {/*</div>*/}
                         </div>
                         <div className='mt-2'>
                             <input
-                                id='password'
-                                name='password'
+                                id='pw'
+                                name='pw'
                                 type='password'
-                                autoComplete='current-password'
                                 required
                                 className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                             />
@@ -85,13 +117,15 @@ const LoginPage = () => {
 
                 <p className='mt-10 text-center text-sm text-gray-500'>
                     아직 회원이 아니신가요?{' '}
-                    <Link href='/signup' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
+                    <Link
+                        href='/signup'
+                        className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'
+                    >
                         간편 회원가입.
                     </Link>
                 </p>
             </div>
         </div>
-
     )
 }
 
