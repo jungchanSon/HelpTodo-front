@@ -4,6 +4,17 @@ MAINTAINER rnrmfjc@gmail.com
 
 WORKDIR /HelpTodo-front
 
+RUN apk add --update --no-cache \
+    make \
+    g++ \
+    jpeg-dev \
+    cairo-dev \
+    giflib-dev \
+    pango-dev \
+    libtool \
+    autoconf \
+    automake
+
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
