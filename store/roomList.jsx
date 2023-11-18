@@ -1,10 +1,10 @@
 import create from 'zustand'
 
 const roomList = create((set) => ({
-    myRooms: null,
+    myTeams: null,
     rooms: null,
 
-    setMyRooms: (prop) => set((state) => ({ myRooms: prop })),
+    setMyTeams: (prop) => set((state) => ({ myTeams: prop })),
     setRooms: (prop) => set((state) => ({ rooms: prop })),
 
     // removeItemRooms: (prop) =>

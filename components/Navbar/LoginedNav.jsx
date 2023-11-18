@@ -7,13 +7,13 @@ import Router from 'next/router'
 
 const LoginedNav = () => {
     const { userName, removeUserName } = userStore()
-    const { removeRoomData } = roomData()
+    const { removeTeamData } = roomData()
     const [cookie, , removeCookie] = useCookies(['token'])
 
     const handleLogout = () => {
         removeUserName()
         removeCookie('token')
-        removeRoomData()
+        removeTeamData()
 
         Router.push('/')
     }
