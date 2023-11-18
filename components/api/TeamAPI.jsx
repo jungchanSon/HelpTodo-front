@@ -22,6 +22,6 @@ const submitCreateTeam = (e) => {
                 Router.push('/teamlist')
             }
         })
-};
+}
 
-export default (submitCreateTeam)
+export default submitCreateTeam

@@ -2,7 +2,6 @@ import axios from 'axios'
 import Router from 'next/router'
 import { useCookies } from 'react-cookie'
 
-
 // 로그인
 const submitLoginForm = async (e) => {
     e.preventDefault()
@@ -32,7 +31,6 @@ const submitLoginForm = async (e) => {
 
         return status, jwt, expiredMs, memberName
     })
-
 }
 
-export default (submitLoginForm)
+export default submitLoginForm

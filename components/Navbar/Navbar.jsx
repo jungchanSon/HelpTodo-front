@@ -22,9 +22,9 @@ const Navbar = () => {
 
     return (
         <div>
-            <nav className='navbar sticky-top'>
+            <nav className="navbar sticky-top">
                 {/*<nav className='navbar sticky-top' style={{ backgroundColor: '#e3f2fd' }}>*/}
-                <div className='container-fluid'>
+                <div className="container-fluid">
                     <NavBarPageButtons />
                     {isLogin ? (
                         <div>
@@ -50,18 +50,18 @@ const Navbar = () => {
 }
 
 const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-  padding: 0 5%;
+    padding: 0 5%;
 
-  border-bottom: 2px solid darkslategray;
+    border-bottom: 2px solid darkslategray;
 `
 const Empty = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `
 
 export default Navbar

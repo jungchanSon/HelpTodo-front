@@ -7,8 +7,8 @@ import roomList from '../../store/roomList'
 import { useCookies } from 'react-cookie'
 
 const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
-    const { setRoomName, setRoomCreator, setRoomCreateDate } = roomData()
-    const { myRooms, setMyRooms, rooms, setRooms } = roomList()
+    const { setTeamName, setTeamCreator, setTeamCreateDate } = roomData()
+    const { myTeams, setMyTeams, rooms, setRooms } = roomList()
     const [cookie] = useCookies(['token'])
     let userId = null
 
@@ -18,9 +18,9 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
     const clickRoom = (e) => {
         e.preventDefault()
         if (type === 'mine' && e.target.tagName != 'BUTTON') {
-            setRoomName(name)
-            setRoomCreateDate(cDate)
-            setRoomCreator(creator)
+            setTeamName(name)
+            setTeamCreateDate(cDate)
+            setTeamCreator(creator)
 
             Router.push('/myteam')
         }
@@ -42,34 +42,27 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
             .post(process.env.NEXT_PUBLIC_JOIN_TEAM, null, {
                 params: joinTeamData,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 axios
                     .post(process.env.NEXT_PUBLIC_FIND_MY_TEAM, null, {
                         headers: {
-                            'Authorization': 'Bearer ' + cookie.token,
+                            Authorization: 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
-                        setMyRooms(res.data)
+                        setMyTeams(res.data)
                     })
-                    .catch((e) => {
-                        console.log(e)
-                    })
-
                 axios
                     .post(process.env.NEXT_PUBLIC_FIND_OTHER_TEAM_LIST, null, {
                         headers: {
-                            'Authorization': 'Bearer ' + cookie.token,
+                            Authorization: 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
                         setRooms(res.data)
-                    })
-                    .catch((e) => {
-                        console.log(e)
                     })
             })
     }
@@ -79,30 +72,24 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
         const data = {
             teamName: name,
         }
-        axios
-            .post(process.env.NEXT_PUBLIC_EXIT_TEAM, null, {
-                headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
-                },
-                params: data,
-            })
-            .then((res) => {
-                console.log('탈퇴!')
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+        axios.post(process.env.NEXT_PUBLIC_EXIT_TEAM, null, {
+            headers: {
+                Authorization: 'Bearer ' + cookie.token,
+            },
+            params: data,
+        })
     }
     return (
         <div>
             {type === 'mine' ? (
                 <div
-                    className='list-group-item list-group-item-action my-1 py-4'
-                    aria-current='true'
-                    onClick={clickRoom}>
+                    className="list-group-item list-group-item-action my-1 py-4"
+                    aria-current="true"
+                    onClick={clickRoom}
+                >
                     <div className={'row'}>
                         <div className={'col'}>
-                            <h5 className='mb-3'>팀 이름 : {name}</h5>
+                            <h5 className="mb-3">팀 이름 : {name}</h5>
                             <small>팀장 : {creator}</small>
                         </div>
                         {/*<div className={'col text-center'}>*/}
@@ -113,33 +100,35 @@ const TeamRoomCard = ({ name, cDate, creator, isPassword, type }) => {
                         {/*</div>*/}
                     </div>
 
-                    <div className='input-group'></div>
+                    <div className="input-group"></div>
                 </div>
             ) : null}
             {type === 'other' ? (
                 <div
-                    className='list-group-item list-group-item-action my-1 py-4'
-                    aria-current='true'>
-                    <div className='d-flex w-100 justify-content-between'>
-                        <h5 className='mb-1'>팀 이름 : {name}</h5>
+                    className="list-group-item list-group-item-action my-1 py-4"
+                    aria-current="true"
+                >
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">팀 이름 : {name}</h5>
                         <small> 생성일 : {cDate.slice(0, 10)}</small>
                     </div>
-                    <p className='mb-1'></p>
+                    <p className="mb-1"></p>
                     <small>팀장 : {creator}</small>
-                    <div className='input-group mb-3'>
-                        <form className='input-group mb-3' onSubmit={enterRoomWithPw}>
+                    <div className="input-group mb-3">
+                        <form className="input-group mb-3" onSubmit={enterRoomWithPw}>
                             {isPassword ? (
                                 <input
-                                    type='text'
-                                    className='form-control'
-                                    placeholder='방 비밀번호 입력 없을 경우, 공란으로'
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="방 비밀번호 입력 없을 경우, 공란으로"
                                     name={'teamPw'}
                                 />
                             ) : null}
                             <button
-                                className='btn btn-outline-secondary'
-                                type='submit'
-                                id='button-addon2'>
+                                className="btn btn-outline-secondary"
+                                type="submit"
+                                id="button-addon2"
+                            >
                                 {' '}
                                 입장
                             </button>
@@ -165,14 +154,14 @@ const boxFade = keyframes`
 `
 const BoxRoomPw = styled.form``
 const Content = styled.div`
-  width: 100px;
-  height: 100px;
-  background: #00bfb2;
-  ${(props) =>
-          props.active &&
-          css`
+    width: 100px;
+    height: 100px;
+    background: #00bfb2;
+    ${(props) =>
+        props.active &&
+        css`
             animation: ${boxFade} 2s 1s infinite linear alternate;
-          `}
+        `}
 `
 
 const InputPw = styled.input``

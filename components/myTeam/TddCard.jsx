@@ -8,35 +8,34 @@ import { useCookies } from 'react-cookie'
 
 const TddCard = ({ ttdData, parent }) => {
     const { userId, userName, setUserName, setUserId } = userStore()
-    const { roomName, roomCreator, roomCreateDate } = roomData()
+    const { teamName, teamCreator, teamCreateDate } = roomData()
     const { todoTableData, setTodoTableData, on_Is_reloadTodoData } = todoTableStore()
     const [cookie] = useCookies(['token'])
     const [detail, setDetail] = useState()
 
-
     const clickDeleteTdd = (e) => {
         e.preventDefault()
         const data = {
-            teamName: roomName,
+            teamName: teamName,
             tddId: ttdData.tddId,
         }
         axios
             .delete(process.env.NEXT_PUBLIC_DELETE_TDD_CARD, {
                 params: data,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 const reqData = {
-                    teamName: roomName,
+                    teamName: teamName,
                 }
 
                 axios
                     .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                         params: reqData,
                         headers: {
-                            'Authorization': 'Bearer ' + cookie.token,
+                            Authorization: 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {

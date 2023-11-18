@@ -13,11 +13,10 @@ export default function Footer() {
 }
 
 const Container = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  height: 5vh;
-  border: 3px solid black;
+    height: 5vh;
+    border: 3px solid black;
 `

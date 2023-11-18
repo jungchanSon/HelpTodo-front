@@ -12,7 +12,7 @@ import { useCookies } from 'react-cookie'
 
 const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) => {
     const [cookie] = useCookies(['token'])
-    const { roomName, roomCreator, roomCreateDate } = roomData()
+    const { teamName, teamCreator, teamCreateDate } = roomData()
     const todoSectionRef = useRef()
     const doingSectionRef = useRef()
     const doneSectionRef = useRef()
@@ -25,26 +25,26 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
         e.preventDefault()
 
         const data = {
-            teamName: roomName,
+            teamName: teamName,
             todoListId: todolistId,
         }
         axios
             .delete(process.env.NEXT_PUBLIC_DELETE_TODOLIST, {
                 params: data,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 const reqData = {
-                    teamName: roomName,
+                    teamName: teamName,
                 }
 
                 axios
                     .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                         params: reqData,
                         headers: {
-                            'Authorization': 'Bearer ' + cookie.token,
+                            Authorization: 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
@@ -64,7 +64,7 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
     const changeCardType = (type) => {
         // e.preventDefault()
         const data = {
-            teamName: roomName,
+            teamName: teamName,
             tddId: tddRef.current.id,
             tddType: type,
         }
@@ -72,18 +72,18 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
             .get(process.env.NEXT_PUBLIC_CHANGE_TDD_CARD_TYPE, {
                 params: data,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
                 const reqData = {
-                    teamName: roomName,
+                    teamName: teamName,
                 }
                 axios
                     .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                         params: reqData,
                         headers: {
-                            'Authorization': 'Bearer ' + cookie.token,
+                            Authorization: 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
@@ -101,7 +101,7 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                 <h6>
                     <b>생성한 사람 : </b> {creator}
                 </h6>
-                <button type='button' className='btn btn-danger mx-3' onClick={clickDeleteTodolist}>
+                <button type="button" className="btn btn-danger mx-3" onClick={clickDeleteTodolist}>
                     투두리스트 삭제
                 </button>
             </TodolistInfo>
@@ -110,7 +110,8 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                     className={'bg-success bg-gradient p-2 text-dark bg-opacity-10'}
                     ref={todoSectionRef}
                     onDragOver={onDragOver}
-                    onDrop={() => changeCardType('TODO')}>
+                    onDrop={() => changeCardType('TODO')}
+                >
                     <H3>
                         TODO <AddTddForm todolistId={todolistId} title={'todo'}></AddTddForm>
                     </H3>
@@ -119,7 +120,8 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                             key={key}
                             id={item.tddId}
                             draggable={true}
-                            onDragStart={(e) => setRefs(e, e.target)}>
+                            onDragStart={(e) => setRefs(e, e.target)}
+                        >
                             <TddCard ttdData={item} key={key} parent={this}></TddCard>
                         </div>
                     ))}
@@ -130,7 +132,8 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                     onDragOver={onDragOver}
                     onDrop={() => {
                         changeCardType('DOING')
-                    }}>
+                    }}
+                >
                     <H3>
                         DOING <AddTddForm todolistId={todolistId} title={'doing'}></AddTddForm>
                     </H3>
@@ -139,7 +142,8 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                             key={key}
                             id={item.tddId}
                             draggable={true}
-                            onDragStart={(e) => setRefs(e, e.target)}>
+                            onDragStart={(e) => setRefs(e, e.target)}
+                        >
                             <TddCard ttdData={item}></TddCard>
                         </div>
                     ))}
@@ -150,7 +154,8 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                     onDragOver={onDragOver}
                     onDrop={() => {
                         changeCardType('DONE')
-                    }}>
+                    }}
+                >
                     <H3>
                         DONE <AddTddForm todolistId={todolistId} title={'done'}></AddTddForm>
                     </H3>
@@ -159,7 +164,8 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
                             key={key}
                             id={item.tddId}
                             draggable={true}
-                            onDragStart={(e) => setRefs(e, e.target)}>
+                            onDragStart={(e) => setRefs(e, e.target)}
+                        >
                             <TddCard ttdData={item}></TddCard>
                         </div>
                     ))}
@@ -169,44 +175,44 @@ const TodoList = ({ todolistId, title, creator, resTodo, resDoing, resDone }) =>
     )
 }
 const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 
-  border: 1px solid black;
-  margin: 3em 0;
+    border: 1px solid black;
+    margin: 3em 0;
 `
 
 const TodoSection = styled.div`
-  justify-content: center;
-  text-align: center;
+    justify-content: center;
+    text-align: center;
 
-  z-index: 100;
+    z-index: 100;
 `
 const DoingSection = styled.div`
-  justify-content: center;
-  border-left: 1px dashed black;
-  border-right: 1px dashed black;
-  text-align: center;
+    justify-content: center;
+    border-left: 1px dashed black;
+    border-right: 1px dashed black;
+    text-align: center;
 
-  z-index: 100;
+    z-index: 100;
 `
 
 const DoneSection = styled.div`
-  justify-content: center;
-  text-align: center;
-  z-index: 0;
+    justify-content: center;
+    text-align: center;
+    z-index: 0;
 `
 const H3 = styled.div`
-  text-align: center;
+    text-align: center;
 `
 
 const TodolistInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-  text-align: center;
+    text-align: center;
 `
 const Div = styled.div`
-  z-index: -10;
+    z-index: -10;
 `
 export default TodoList

@@ -18,10 +18,9 @@ const MyteamPage = () => {
     const { userId, userName, setUserName, setUserId } = userStore()
     const [tableData, setTableData] = useState([])
     const [cookie] = useCookies(['token'])
-    const { roomName, roomCreator, roomCreateDate } = roomData()
-    const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
-        todoTableStore()
-    const { myRooms } = roomList()
+    const { teamName, teamCreator, teamCreateDate } = roomData()
+    const { todoTableData, setTodoTableData } = todoTableStore()
+    const { myTeams } = roomList()
     const [myMembers, setMyMembers] = useState([])
 
     useEffect(() => {
@@ -29,22 +28,25 @@ const MyteamPage = () => {
             Router.push('/login')
         }
         //----------------------------------------------------------
-        const sseForUpdate = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_LOCALURL_BACK}/event/addEmitter?teamName=${roomName}`, {
-            headers: {
-                'Authorization': `Bearer ${cookie.token}`,
+        const sseForUpdate = new EventSourcePolyfill(
+            `${process.env.NEXT_PUBLIC_LOCALURL_BACK}/event/addEmitter?teamName=${teamName}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${cookie.token}`,
+                },
             },
-        })
+        )
 
         sseForUpdate.addEventListener('updateTodoList', () => {
             const reqData = {
-                'teamName': roomName,
+                teamName: teamName,
             }
 
             axios
                 .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                     params: reqData,
                     headers: {
-                        'Authorization': `Bearer ${cookie.token}`,
+                        Authorization: `Bearer ${cookie.token}`,
                     },
                 })
                 .then((res) => {
@@ -55,14 +57,14 @@ const MyteamPage = () => {
         //----------------------------------------------------------
 
         const reqData = {
-            teamName: roomName,
+            teamName: teamName,
         }
 
         axios
             .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                 params: reqData,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
@@ -70,51 +72,17 @@ const MyteamPage = () => {
                 setTableData(res.data)
             })
 
-        axios.post(process.env.NEXT_PUBLIC_FIND_MY_MEMBERS, null, {
-            params: reqData,
-            headers: {
-                'Authorization': 'Bearer ' + cookie.token,
-            },
-        }).then((res) => {
-            setMyMembers(res.data)
-        })
-
+        axios
+            .post(process.env.NEXT_PUBLIC_FIND_MY_MEMBERS, null, {
+                params: reqData,
+                headers: {
+                    Authorization: 'Bearer ' + cookie.token,
+                },
+            })
+            .then((res) => {
+                setMyMembers(res.data)
+            })
     }, [])
-
-    // useEffect(() => {
-    //     const reqData = {
-    //         teamName: roomName,
-    //     }
-    //     if (todoTableData) {
-    //         setTableData(todoTableData)
-    //     }
-    //
-    //     console.log('tableData', tableData)
-    // }, [todoTableData])
-    // useEffect(() => {
-    //     const reqData = {
-    //         teamName: roomName,
-    //     }
-    //     console.log(reqData)
-    //
-    //     axios
-    //         .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
-    //             params: reqData,
-    //             headers: {
-    //                 Authorization: 'Bearer ' + cookie.token,
-    //             },
-    //         })
-    //         .then((res) => {
-    //             console.log('all', res.data)
-    //
-    //             setTodoTableDatas(res.data)
-    //         })
-    //     off_Is_reloadTodoData()
-    //     console.log('tdds', todoTableData)
-    //     console.log('tdds', doingDatas)
-    //     console.log('tdds', doneDatas)
-    // }, [is_reloadTodoTableData])
-
 
     const clickAddTodoList = (e) => {
         e.preventDefault()
@@ -122,31 +90,29 @@ const MyteamPage = () => {
         const createRoomData = {
             title: e.target.inputRoomName.value,
             to: userId,
-            teamName: roomName,
+            teamName: teamName,
         }
         axios
             .post(process.env.NEXT_PUBLIC_CREATE_TODOLIST, null, {
                 params: createRoomData,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
-
                 const reqData = {
                     userId: userId,
-                    teamName: roomName,
+                    teamName: teamName,
                 }
 
                 axios
                     .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                         params: reqData,
                         headers: {
-                            'Authorization': 'Bearer ' + cookie.token,
+                            Authorization: 'Bearer ' + cookie.token,
                         },
                     })
                     .then((res) => {
-
                         setTodoTableData(res.data)
                     })
             })
@@ -166,7 +132,7 @@ const MyteamPage = () => {
             .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
                 params: reqData,
                 headers: {
-                    'Authorization': 'Bearer ' + cookie.token,
+                    Authorization: 'Bearer ' + cookie.token,
                 },
             })
             .then((res) => {
@@ -188,37 +154,33 @@ const MyteamPage = () => {
                         <h4>
                             <b>팀 이름</b>
                         </h4>
-                        <h5>{roomName}</h5>
+                        <h5>{teamName}</h5>
                         <hr />
                         <h4>
                             <b>팀장</b>
                             {}
                         </h4>
-                        <h5>{roomCreator}</h5>
+                        <h5>{teamCreator}</h5>
                         <hr />
                         <h4>
                             <b>방 생성일</b>
                         </h4>
-                        <h5>{roomCreateDate ? roomCreateDate.slice(0, 10) : null}</h5>
+                        <h5>{teamCreateDate ? teamCreateDate.slice(0, 10) : null}</h5>
                         <hr />
                         <h4>
                             <b>팀원들</b>
-                            {
-                                myMembers ? myMembers.map((item, key) => (
-                                        <div key={key}>
-                                            {item}
-                                        </div>
-                                    ))
-                                    : null}
+                            {myMembers
+                                ? myMembers.map((item, key) => <div key={key}>{item}</div>)
+                                : null}
                         </h4>
                         <h5>
                             <b>팀 목록</b>
-                            {myRooms
-                                ? myRooms.map((item, key) => (
-                                    <div key={key} onClick={() => moveToOtherTeam(item.name)}>
-                                        {item.name}
-                                    </div>
-                                ))
+                            {myTeams
+                                ? myTeams.map((item, key) => (
+                                      <div key={key} onClick={() => moveToOtherTeam(item.name)}>
+                                          {item.name}
+                                      </div>
+                                  ))
                                 : null}
                         </h5>
                         <hr />
@@ -239,12 +201,12 @@ const MyteamPage = () => {
                     <h1 style={{ textAlign: 'center' }} className={'py-3'}>
                         <form onSubmit={clickAddTodoList}>
                             <input
-                                type='text'
+                                type="text"
                                 name={'inputRoomName'}
                                 className={'mx-3'}
-                                placeholder='투두리스트 이름'
+                                placeholder="투두리스트 이름"
                             />
-                            <button type='submit' className='btn btn-outline-success mx-3'>
+                            <button type="submit" className="btn btn-outline-success mx-3">
                                 투두리스트 추가
                             </button>
                         </form>
@@ -272,17 +234,17 @@ const MyteamPage = () => {
 }
 
 const GridLayout = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 6fr;
+    display: grid;
+    grid-template-columns: 1fr 6fr;
 
-  border: 1px solid black;
-  margin: 3em 0;
+    border: 1px solid black;
+    margin: 3em 0;
 `
 const Div = styled.div`
-  border: 1px solid black;
+    border: 1px solid black;
 `
 const RoomInfo = styled.div`
-  padding: 5px;
-  text-align: center;
+    padding: 5px;
+    text-align: center;
 `
 export default MyteamPage
