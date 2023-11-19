@@ -81,10 +81,9 @@ const Calendar = () => {
                 }}
                 droppable={true}
                 initialView='dayGridMonth'
-                dateClick={handleDateClick}
                 slotMaxTime={'00:00:00'}
                 locale={'ko'}
-                events={todoTableData[0].resTodos.map((todo) => ({
+                events={todoTableData[0].resTodos && todoTableData[0].resTodos.map((todo) => ({
                     title: todo.content,
                     date: todo.startDate,
                     end: todo.endDate,

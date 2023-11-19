@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -13,7 +13,7 @@ import todoTableStore from '../../store/todoTableStore'
 import roomData from '../../store/roomData'
 import Router from 'next/router'
 import { EventSourcePolyfill } from 'event-source-polyfill'
-import axios from 'axios'
+import axios, { formToJSON } from 'axios'
 import { useCookies } from 'react-cookie'
 
 const TodoList = (props) => {
@@ -21,11 +21,6 @@ const TodoList = (props) => {
     const { todoTableData, setTodoTableData, is_reloadTodoTableData, off_Is_reloadTodoData } =
         todoTableStore()
     const [cookie] = useCookies(['token'])
-
-    const handleDateClick = (arg) => {
-        // bind with an arrow function
-        alert(arg.dateStr)
-    }
 
     useEffect(() => {
         if (!teamName) {
@@ -43,18 +38,8 @@ const TodoList = (props) => {
             },
         )
 
-        sseForUpdate.addEventListener('updateTodoList', () => {
-            const reqData = {
-                teamName: teamName,
-            }
-
-            axios
-                .post(process.env.NEXT_PUBLIC_ALL_TODOLIST, null, {
-                    params: reqData,
-                })
-                .then((res) => {
-                    setTodoTableData(res.data)
-                })
+        sseForUpdate.addEventListener('updateTodoList', (res) => {
+            setTodoTableData(JSON.parse(res.data))
         })
         //----------------------------------------------------------
 
@@ -79,6 +64,7 @@ const TodoList = (props) => {
         //     setMyMembers(res.data)
         // })
     }, [])
+
     const completeTodo = (e) => {
         e.preventDefault()
         const data = {
@@ -107,7 +93,7 @@ const TodoList = (props) => {
             })
     }
 
-    return todoTableData ? (
+    return (
         <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
             <div className='flex flex-row align-items-center px-4'>
                 <Calendar />
@@ -119,7 +105,7 @@ const TodoList = (props) => {
                 </div>
                 <ul role='list' className='w-full divide-y divide-gray-100'>
                     <h3>할 일 목록</h3>
-                    {todoTableData[0].resTodos.map((todo) => (
+                    {todoTableData[0].resTodos && todoTableData[0].resTodos.map((todo) => (
                         <li
                             key={todo.tddId}
                             className='flex justify-between gap-x-6 py-1 px-3 bg-white border-solid border-1 rounded-3 opacity-80 mb-3'
@@ -169,7 +155,7 @@ const TodoList = (props) => {
                 </ul>
             </div>
         </div>
-    ) : null
+    )
 }
 
 function renderEventContent(eventInfo) {

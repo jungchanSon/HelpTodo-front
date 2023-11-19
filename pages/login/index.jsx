@@ -27,7 +27,6 @@ const LoginPage = () => {
                 expires: new Date(Date.now() + expiredMs),
             })
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt //or res.data 등...
-
             if (res.status == 200) {
                 Router.push('/')
             }
