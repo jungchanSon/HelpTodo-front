@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import styled from 'styled-components'
 import Calendar from '../../components/todolist/Calendar'
 import AddTodoForm from '../../components/todolist/AddTodoForm'
@@ -105,7 +100,7 @@ const TodoList = (props) => {
                 </div>
                 <ul role='list' className='w-full divide-y divide-gray-100'>
                     <h3>할 일 목록</h3>
-                    {todoTableData[0].resTodos && todoTableData[0].resTodos.map((todo) => (
+                    {todoTableData ? todoTableData[0].resTodos.map((todo) => (
                         <li
                             key={todo.tddId}
                             className='flex justify-between gap-x-6 py-1 px-3 bg-white border-solid border-1 rounded-3 opacity-80 mb-3'
@@ -151,21 +146,11 @@ const TodoList = (props) => {
                                 </div>
                             </div>
                         </li>
-                    ))}
+                    )) : null}
                 </ul>
             </div>
         </div>
     )
 }
 
-function renderEventContent(eventInfo) {
-    return (
-        <>
-            <b>{eventInfo.event.title}</b>
-            <i>{eventInfo.event._instance.range.end.toDateString()}</i>
-        </>
-    )
-}
-
-const CalendarContainer = styled.div``
 export default TodoList

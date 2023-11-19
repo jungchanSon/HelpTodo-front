@@ -70,7 +70,6 @@ const Calendar = () => {
     }
     return (
         <div className='mt-10 sm:mx-auto sm:w-full bg-white border-solid border-1 rounded-3 opacity-90 p-2'>
-            <div id={'mycalendar'}></div>
             <FullCalendar
                 id='mycalendar'
                 plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
@@ -83,19 +82,19 @@ const Calendar = () => {
                 initialView='dayGridMonth'
                 slotMaxTime={'00:00:00'}
                 locale={'ko'}
-                events={todoTableData[0].resTodos && todoTableData[0].resTodos.map((todo) => ({
+                events={todoTableData ? todoTableData[0].resTodos.map((todo) => ({
                     title: todo.content,
                     date: todo.startDate,
                     end: todo.endDate,
                     color: getRandomColor(),
                     id: todo.tddId,
-                }))}
+                })) : null}
                 editable={true}
                 eventResize={updateDate}
                 eventDrop={updateDate}
                 slotEventOverlap={true}
                 eventContent={renderEventContent}
-            ></FullCalendar>
+            />
         </div>
     )
 }
