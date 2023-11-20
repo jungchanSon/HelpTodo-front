@@ -7,15 +7,21 @@
 ## 사용 예시
 
 1. 회원가입 및 로그인
-   ![](../../todoAnim/SignLogin.gif)
+   ![SignLogin](https://github.com/jungchanSon/HelpTodo-front/assets/77601495/e79e7624-aa33-4e88-a71d-e052307905e7)
+
 2. 팀 생성
-   ![](../../todoAnim/CreateTeam.gif)
+   ![SignLogin](https://github.com/jungchanSon/HelpTodo-front/assets/77601495/40acb974-47f9-42c2-8a39-dc2f94ca01ec)
+
 3. 팀 참가
-   ![](../../todoAnim/JoinTeam.gif)
+   ![JoinTeam](https://github.com/jungchanSon/HelpTodo-front/assets/77601495/a1872040-4986-4499-8e95-2ca588e79ea0)
+
 4. 할 일 추가
-   ![](../../todoAnim/AddTodo.gif)
+   ![AddTodo](https://github.com/jungchanSon/HelpTodo-front/assets/77601495/8625c3f9-dee7-4a42-bd25-bc9081e4dfd1)
+
 5. 일정 수정
-   ![](../../todoAnim/ResizeMoveTodo.gif)
+   ![Resize](https://github.com/jungchanSon/HelpTodo-front/assets/77601495/d5666370-db08-42c0-80de-935c43940ad3)
+
 6. 일정 삭제
-   ![](../../todoAnim/RemoveTodo.gif)
+   ![remove](https://github.com/jungchanSon/HelpTodo-front/assets/77601495/3fd27d2d-99e5-4273-8e31-f6ade789c8d2)
+
  
